@@ -137,6 +137,19 @@ public class PlayerBoardTest {
     }
 
     @Test
+    public void testGetShipsUnmodifiable() {
+        // Testing both cases for either any exception that could be thrown from mutating list
+        // or mutating the list doesn't throw an exception but it doesn't mutate the list returned
+        // from the method getShips().
+        playerBoard.placeShip(ship);
+        try {
+            List<Ship> ships = playerBoard.getShips();
+            ships.clear();
+            assertEquals(playerBoard.getShips().size(), 1);
+        } catch(Exception ignored) {}
+    }
+
+    @Test
     public void testGameOverFalse() {
         assertFalse(playerBoard.isGameOver());
     }
