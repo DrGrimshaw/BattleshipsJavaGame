@@ -1,9 +1,6 @@
 package aston.battleships.test;
 
-import aston.battleships.CellState;
-import aston.battleships.Coordinates;
-import aston.battleships.PlayerBoard;
-import aston.battleships.Ship;
+import aston.battleships.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,13 +16,11 @@ import static junit.framework.TestCase.assertTrue;
 public class PlayerBoardTest {
     PlayerBoard playerBoard;
     Ship ship;
-    Ship ship2;
 
     @Before
     public void setUp() {
         playerBoard = null; //new PlayerBoardImpl(7, 7);
         ship = null; //new ShipImpl(3, new Coordinates(0, 0), Orientation.RIGHT);
-        ship2 = null; //new ShipImpl(3, new Coordinates(10, 10), Orientation.RIGHT);
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -56,6 +51,20 @@ public class PlayerBoardTest {
 
     @Test (expected = ArrayIndexOutOfBoundsException.class)
     public void placeShipTestOutsideBounds() {
+        Ship ship2 = new ShipImpl(3, new Coordinates(10, 10), Orientation.RIGHT);
+        playerBoard.placeShip(ship2);
+    }
+
+    @Test (expected = ArrayIndexOutOfBoundsException.class)
+    public void placeShipLengthTestOutsideBounds() {
+        Ship ship2 = new ShipImpl(3, new Coordinates(7, 7), Orientation.DOWN);
+        playerBoard.placeShip(ship2);
+    }
+
+    @Test (expected = ArrayIndexOutOfBoundsException.class)
+    public void placeShipsOverlapTestOutsideBounds() {
+        playerBoard.placeShip(ship);
+        Ship ship2 = new ShipImpl(3, new Coordinates(0, 1), Orientation.DOWN);
         playerBoard.placeShip(ship2);
     }
 
