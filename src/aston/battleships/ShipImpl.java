@@ -4,23 +4,23 @@ package aston.battleships;
  * Created by cooperwd on 18/09/2017.
  */
 public class ShipImpl implements Ship {
-    private int length;
+    private final int length;
     private int health;
-    private Orientation orientation;
-    private Coordinates startingPosition;
+    private final Orientation orientation;
+    private final Coordinates startingPosition;
 
     public ShipImpl(int length, Coordinates startingPosition, Orientation orientation) {
         if(length < 1) {
-            throw new IllegalArgumentException("Incorrect length of: "+length);
+            throw new IllegalArgumentException("Incorrect length of: " + length);
         } else if(orientation == null) {
             throw new IllegalArgumentException("Null orientation");
         } else if(startingPosition == null) {
             throw new IllegalArgumentException("Null startingPosition");
         } else if(startingPosition.x < 0 || startingPosition.y < 0) {
             throw new IllegalArgumentException(
-                    "Incorrect starting position"+
-                    " for x: "+startingPosition.x+
-                    " or y: "+startingPosition.y
+                    "Incorrect starting position"
+                    + " for x: " + startingPosition.x
+                    + " or y: " + startingPosition.y
             );
         } else {
             this.length = length;
@@ -41,11 +41,11 @@ public class ShipImpl implements Ship {
             case DOWN:
                 return coordinates.x == startingPosition.x
                     && coordinates.y >= startingPosition.y
-                    && coordinates.y <= startingPosition.y+length-1;
+                    && coordinates.y <= startingPosition.y+length-1; // TODO: there is code duplication here and in PlayerBoardImpl
             case RIGHT:
                 return coordinates.y == startingPosition.y
-                        && coordinates.x >= startingPosition.x
-                        && coordinates.x <= startingPosition.x+length-1;
+                    && coordinates.x >= startingPosition.x
+                    && coordinates.x <= startingPosition.x+length-1;
         }
         throw new IllegalStateException("Null orientation");
     }
@@ -55,11 +55,22 @@ public class ShipImpl implements Ship {
         if(isSunk()){
             throw new IllegalStateException("Ship has already sunk.");
         }
+
         health--;
     }
 
     @Override
     public boolean isSunk() {
         return health == 0;
+    }
+
+    @Override
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    @Override
+    public Coordinates getStartingPosition() {
+        return startingPosition;
     }
 }
