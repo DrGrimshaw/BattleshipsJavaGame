@@ -24,48 +24,71 @@ public class PlayerBoardTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void constructIncorrect() {
+    public void testConstructIncorrect() {
         //new PlayerBoardImpl(0, 0);
     }
 
     @Test
-    public void getWidthTest() {
+    public void testGetWidth() {
         assertEquals(playerBoard.getWidth(), 7);
     }
 
     @Test
-    public void getHeightTest() {
+    public void testGetHeight() {
         assertEquals(playerBoard.getHeight(), 7);
     }
 
     @Test
-    public void placeShipTest() {
+    public void testPlaceShip() {
         playerBoard.placeShip(ship);
         assertEquals(playerBoard.getShip(new Coordinates(0,0)), ship);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void placeNullShip() {
+    public void testPlaceNullShip() {
         playerBoard.placeShip(null);
     }
 
-    @Test (expected = ArrayIndexOutOfBoundsException.class)
-    public void placeShipTestOutsideBounds() {
+    @Test (expected = IndexOutOfBoundsException.class)
+    public void testPlaceShipOutsideBounds() {
         Ship ship2 = new ShipImpl(3, new Coordinates(10, 10), Orientation.RIGHT);
         playerBoard.placeShip(ship2);
     }
 
-    @Test (expected = ArrayIndexOutOfBoundsException.class)
-    public void placeShipLengthTestOutsideBounds() {
+    @Test (expected = IndexOutOfBoundsException.class)
+    public void testPlaceShipLengthOutsideBounds() {
         Ship ship2 = new ShipImpl(3, new Coordinates(7, 7), Orientation.DOWN);
         playerBoard.placeShip(ship2);
     }
 
-    @Test (expected = ArrayIndexOutOfBoundsException.class)
-    public void placeShipsOverlapTestOutsideBounds() {
+    @Test (expected = IllegalArgumentException.class)
+    public void testPlaceShipsOverlap() {
         playerBoard.placeShip(ship);
-        Ship ship2 = new ShipImpl(3, new Coordinates(0, 1), Orientation.DOWN);
+        Ship ship2 = new ShipImpl(3, new Coordinates(1, 0), Orientation.DOWN);
         playerBoard.placeShip(ship2);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testPlaceShipsOverlap2() {
+        playerBoard.placeShip(new ShipImpl(3, new Coordinates(2, 0), Orientation.DOWN));
+        playerBoard.placeShip(new ShipImpl(3, new Coordinates(0, 2), Orientation.RIGHT));
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testPlaceShipsOverlapTest3() {
+        playerBoard.placeShip(new ShipImpl(5, new Coordinates(2, 0), Orientation.DOWN));
+        playerBoard.placeShip(new ShipImpl(4, new Coordinates(0, 3), Orientation.RIGHT));
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testPlaceShipsOverlapTest4() {
+        playerBoard.placeShip(new ShipImpl(3, new Coordinates(2, 0), Orientation.DOWN));
+        playerBoard.placeShip(new ShipImpl(3, new Coordinates(2, 2), Orientation.DOWN));
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testPlaceShipLongerThanGridOutsideBounds() {
+        playerBoard.placeShip(new ShipImpl(8, new Coordinates(2, 0), Orientation.DOWN));
     }
 
     @Test
