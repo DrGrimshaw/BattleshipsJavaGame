@@ -4,13 +4,17 @@ package aston.battleships;
  * Created by lawtonel on 18/09/2017.
  */
 public class EnemyBoardImpl implements EnemyBoard {
-    private CellState[][] grid;
-    private int width, height, shipsRemaining;
+    private final CellState[][] grid;
+    private final int width, height;
+    private int shipsRemaining;
 
-    EnemyBoardImpl(int newWidth, int newHeight, int newShipsRemaining) {
+    public EnemyBoardImpl(int newWidth, int newHeight, int newShipsRemaining) {
+        // TODO: check for legal arguments
+
         width = newWidth;
         height = newHeight;
         shipsRemaining = newShipsRemaining;
+
         grid = new CellState[width][height];
         for(int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
@@ -41,11 +45,13 @@ public class EnemyBoardImpl implements EnemyBoard {
         coordinates.checkBounds(width, height);
         return grid[coordinates.x][coordinates.y] != CellState.NOTHING;
     }
+
     @Override
     public CellState getCellState(Coordinates coordinates) {
         coordinates.checkBounds(width, height);
-            return grid[coordinates.x][coordinates.y];
+        return grid[coordinates.x][coordinates.y];
     }
+
     @Override
     public int getWidth() {
         return width;

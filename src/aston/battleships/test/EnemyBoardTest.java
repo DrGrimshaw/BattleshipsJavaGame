@@ -1,8 +1,6 @@
 package aston.battleships.test;
 
-import aston.battleships.CellState;
-import aston.battleships.Coordinates;
-import aston.battleships.EnemyBoard;
+import aston.battleships.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +12,7 @@ public class EnemyBoardTest {
 
     @Before
     public void setUp(){
-        board = null;//new EnemyBoardImpl();
+        board = new EnemyBoardImpl(7, 7, 5);
 
         // width = 7; height = 7; numberOfShipsRemaining 5;
     }
