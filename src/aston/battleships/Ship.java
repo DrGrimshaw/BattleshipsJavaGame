@@ -5,7 +5,7 @@ package aston.battleships;
  */
 public interface Ship {
     public int getLength();
-    public boolean isAt(int x, int y);
+    public boolean isAt(Coordinates coordinates);
     public void takeAHit();
     public boolean isSunk();
 }
