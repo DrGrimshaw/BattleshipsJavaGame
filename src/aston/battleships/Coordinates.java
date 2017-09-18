@@ -8,4 +8,10 @@ public class Coordinates {
         this.x = x;
         this.y = y;
     }
+
+    public void checkBounds(int width, int height) {
+        if(x < 0 || x >= width || y < 0 || y >= height) {
+            throw new IndexOutOfBoundsException("Coordinates (" + x + ", " + y + ") are out of bounds.");
+        }
+    }
 }
