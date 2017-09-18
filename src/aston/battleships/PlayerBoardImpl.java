@@ -7,12 +7,17 @@ public class PlayerBoardImpl implements PlayerBoard {
     int width;
     int height;
     CellState[][] cellStates;
-    List<Ship>  ships;
+    List<Ship> ships;
 
-    PlayerBoardImpl(int newWidth, int newHeight) {
+    public PlayerBoardImpl(int newWidth, int newHeight) {
         width = newWidth;
         height = newHeight;
-        cellStates = new CellState[7][7];
+        cellStates = new CellState[newWidth][newHeight];
+        for(int x = 0; x < width; x++){
+            for(int y = 0; y < height; y++){
+                cellStates[x][y] = CellState.NOTHING;
+            }
+        }
         ships = new ArrayList<Ship>();
     }
 
@@ -29,16 +34,28 @@ public class PlayerBoardImpl implements PlayerBoard {
 
     @Override
     public void placeShip(Ship ship) {
-    // todo: stub
+
+        // TODO: test if new ship will be out of bounds
+        if (cellStates[x][y] ) {
+
+        }
+        // TODO: test if new ship overlaps any previous ship
+
+        // otherwise,
+        // TODO: update the cell states for the new ship
+
+        // TODO: add the ship to the list of ships
     }
 
     @Override
     public CellState getCellState(Coordinates coordinates) {
+        coordinates.checkBounds(width, height);
         return cellStates[coordinates.x][coordinates.y];
     }
 
     @Override
     public boolean hasGuessedAlready(Coordinates coordinates) {
+        coordinates.checkBounds(width, height);
         if(getCellState(coordinates) == CellState.NOTHING){
             return false;
         }
@@ -47,6 +64,7 @@ public class PlayerBoardImpl implements PlayerBoard {
 
     @Override
     public Ship getShip(Coordinates coordinates) {
+        coordinates.checkBounds(width, height);
         for (Ship ship : ships) {
             if (ship.isAt(coordinates)) {
                 return ship;
@@ -78,6 +96,7 @@ public class PlayerBoardImpl implements PlayerBoard {
 
     @Override
     public CellState takeAHit(Coordinates coordinates) {
+        coordinates.checkBounds(width, height);
         // TODO
         return null;
     }

@@ -8,4 +8,6 @@ public interface Ship {
     public boolean isAt(Coordinates coordinates);
     public void takeAHit();
     public boolean isSunk();
+    public Coordinates getStartingPosition();
+    public Orientation getShipOrientation();
 }
