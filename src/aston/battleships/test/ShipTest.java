@@ -1,9 +1,7 @@
 package aston.battleships.test;
 import static org.junit.Assert.*;
 
-import aston.battleships.CellState;
-import aston.battleships.Coordinates;
-import aston.battleships.Ship;
+import aston.battleships.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +13,7 @@ public class ShipTest {
     @Before
     public void setUp() {
         coordinates = new Coordinates(1,2);
-        //ship = new ShipImpl(3, coordinates, Orientation.RIGHT);
+        ship = new ShipImpl(3, coordinates, Orientation.RIGHT);
     }
 
 
@@ -79,26 +77,22 @@ public class ShipTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidLength() {
-        // TODO
-        //new ShipImpl(0, coordinates, Orientation.RIGHT);
+        new ShipImpl(0, coordinates, Orientation.RIGHT);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullCoordinates() {
-        // TODO
-        //new ShipImpl(3, null, Orientation.RIGHT);
+        new ShipImpl(3, null, Orientation.RIGHT);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullOrientation() {
-        // TODO
-        //new ShipImpl(3, coordinates, null);
+        new ShipImpl(3, coordinates, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeCoordinates() {
-        // TODO
         Coordinates newCoordinates = new Coordinates(-1, 0);
-        //new ShipImpl(3, newCoordinates, Orientation.RIGHT);
+        new ShipImpl(3, newCoordinates, Orientation.RIGHT);
     }
 }

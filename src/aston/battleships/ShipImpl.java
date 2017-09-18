@@ -4,16 +4,18 @@ package aston.battleships;
  * Created by cooperwd on 18/09/2017.
  */
 public class ShipImpl implements Ship {
-    private final int length;
+    private int length;
     private int health;
-    private final Orientation orientation;
-    private final Coordinates startingPosition;
+    private Orientation orientation;
+    private Coordinates startingPosition;
 
     public ShipImpl(int length, Coordinates startingPosition, Orientation orientation) {
         if(length < 1) {
             throw new IllegalArgumentException("Incorrect length of: "+length);
         } else if(orientation == null) {
             throw new IllegalArgumentException("Null orientation");
+        } else if(startingPosition == null) {
+            throw new IllegalArgumentException("Null startingPosition");
         } else if(startingPosition.x < 0 || startingPosition.y < 0) {
             throw new IllegalArgumentException(
                     "Incorrect starting position"+
