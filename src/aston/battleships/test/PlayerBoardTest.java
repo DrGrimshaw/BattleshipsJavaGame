@@ -19,7 +19,7 @@ public class PlayerBoardTest {
 
     @Before
     public void setUp() {
-        playerBoard = null; //new PlayerBoardImpl(7, 7);
+        playerBoard = new PlayerBoardImpl(7, 7);
         ship = new ShipImpl(3, new Coordinates(0, 0), Orientation.RIGHT);
     }
 
