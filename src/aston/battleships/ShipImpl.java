@@ -62,4 +62,14 @@ public class ShipImpl implements Ship {
     public boolean isSunk() {
         return health == 0;
     }
+
+    @Override
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    @Override
+    public Coordinates getStartingPosition() {
+        return startingPosition;
+    }
 }
