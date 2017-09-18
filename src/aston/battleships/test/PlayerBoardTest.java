@@ -19,19 +19,18 @@ import static junit.framework.TestCase.assertTrue;
 public class PlayerBoardTest {
     PlayerBoard playerBoard;
     Ship ship;
+    Ship ship2;
 
     @Before
     public void setUp() {
-        int width, height;
-        width = 7;
-        height = 7;
-        playerBoard = null; //new PlayerBoardImpl(width, height);
-        ship = null; //new ShipImpl(3, new Coordinates(0,0), Orientation.RIGHT);
+        playerBoard = null; //new PlayerBoardImpl(7, 7);
+        ship = null; //new ShipImpl(3, new Coordinates(0, 0), Orientation.RIGHT);
+        ship2 = null; //new ShipImpl(3, new Coordinates(10, 10), Orientation.RIGHT);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void constructIncorrect() {
-        //new PlayerBoardImpl(0,0);
+        //new PlayerBoardImpl(0, 0);
     }
 
     @Test
@@ -47,6 +46,17 @@ public class PlayerBoardTest {
     @Test
     public void placeShipTest() {
         playerBoard.placeShip(ship);
+        assertEquals(playerBoard.getShip(new Coordinates(0,0)), ship);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void placeNullShip() {
+        playerBoard.placeShip(null);
+    }
+
+    @Test (expected = ArrayIndexOutOfBoundsException.class)
+    public void placeShipTestOutsideBounds() {
+        playerBoard.placeShip(ship2);
     }
 
     @Test
