@@ -12,4 +12,5 @@ public interface PlayerBoard {
     public int getNumberOfShipsRemaining();
     public List<Ship> getShips();
     public boolean isGameOver();
+    public CellState takeAHit(Coordinates coordinates);
 }

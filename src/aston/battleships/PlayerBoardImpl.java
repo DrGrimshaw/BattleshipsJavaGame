@@ -75,4 +75,10 @@ public class PlayerBoardImpl implements PlayerBoard {
     public boolean isGameOver() {
         return getNumberOfShipsRemaining() == 0;
     }
+
+    @Override
+    public CellState takeAHit(Coordinates coordinates) {
+        // TODO
+        return null;
+    }
 }
