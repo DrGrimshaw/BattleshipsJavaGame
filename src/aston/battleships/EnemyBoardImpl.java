@@ -9,7 +9,12 @@ public class EnemyBoardImpl implements EnemyBoard {
     private int shipsRemaining;
 
     public EnemyBoardImpl(int newWidth, int newHeight, int newShipsRemaining) {
-        // TODO: check for legal arguments
+        if(newWidth <= 0 || newHeight <=0) {
+            throw new IllegalArgumentException(newHeight + " by " + newWidth + " is not a legal board size");
+        }
+        if(newShipsRemaining <= 0) {
+            throw new IllegalArgumentException("Can not start the game as the number of ships remaining is " + newShipsRemaining);
+        }
 
         width = newWidth;
         height = newHeight;
