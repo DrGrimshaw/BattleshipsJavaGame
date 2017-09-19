@@ -7,42 +7,40 @@ import java.util.List;
  */
 public class TextView implements View {
 
-    private static String padCenter(String input, int newLength) {
+    public static String padCenter(String input, int newLength) {
         int inputLength = input.length();
-        int spacesEitherSide = newLength-inputLength;
+        int totalSpaces = newLength - inputLength;
+
         StringBuilder sb  = new StringBuilder();
-
-        boolean hasStringBeenAdded = false;
-
-        for(int i = 1; i <= spacesEitherSide; i++) {
-            if(i <= spacesEitherSide/2 || i >= (spacesEitherSide/2)+inputLength){
-                sb.append(" ");
-            } else if(!hasStringBeenAdded) {
-                sb.append(input);
-            }
+        for(int i = 0; i < totalSpaces/2; i++) {
+            sb.append(" ");
+        }
+        sb.append(input);
+        for(int i = 0; i < (totalSpaces+1)/2; i++) {
+            sb.append(" ");
         }
 
+        return sb.toString();
     }
+
+
 
     @Override
     public void viewBoards(PlayerBoard playerBoard, EnemyBoard enemyBoard) {
-        int width = enemyBoard.getWidth();
-        int height = enemyBoard.getHeight();
         StringBuilder sb = new StringBuilder();
 
         //TODO: Make enemy Title row
-        // Get center width
-        int spacesFromLeftToCenterOfEnemyBoard = ((width*3)+4)/2;
-        int enemyTitlePosition = spacesFromLeftToCenterOfEnemyBoard-5;
-
+        sb.append("  ").append(padCenter("ENEMY BOARD", 2*enemyBoard.getWidth() + 5));
+        sb.append("    ").append(padCenter("YOUR BOARD", 2*playerBoard.getWidth() + 5)).append("\n");
 
         //TODO: Make enemy alphabet row
         //TODO: Make grid separator (start)
+        appendHorizontalBorder(playerBoard, enemyBoard, sb);
+
         //Make enemy and player grid rows
         for(int y = 0; y < enemyBoard.getHeight(); y++) {
             int rowNumber = y+1;
-
-            sb.append(rowNumber + " | ");
+            sb.append(String.format("%2d",rowNumber)).append(" | ");
 
             for(int x = 0; x < enemyBoard.getWidth(); x++) {
                 CellState cellState = enemyBoard.getCellState(new Coordinates(x, y));
@@ -60,7 +58,7 @@ public class TextView implements View {
                         throw new IllegalStateException("Should not be able to see " + cellState + " on enemy board at x:" + x + " y:" + y);
                 }
             }
-            sb.append("|   ").append(rowNumber).append(" | ");
+            sb.append("|   ").append(String.format("%2d",rowNumber)).append(" | ");
             for(int x = 0; x < playerBoard.getWidth(); x++) {
                 CellState cellState = playerBoard.getCellState(new Coordinates(x, y));
                 switch(cellState) {
@@ -85,14 +83,28 @@ public class TextView implements View {
             }
             sb.append("|\n");
         }
-        //TODO: Make grid separator (end)
+
+        appendHorizontalBorder(playerBoard, enemyBoard, sb);
 
         //TODO: Make player Title row
         //TODO: Make player alphabet row
-        //TODO: Make grid separator (start)
-        //TODO: Make grid separator (end)
+
+        sb.append("  ").append(padCenter("Ships remaining: " + enemyBoard.getNumberOfShipsRemaining(), 2*enemyBoard.getWidth() + 5));
+        sb.append("    ").append(padCenter("Ships remaining: " + playerBoard.getNumberOfShipsRemaining(), 2*playerBoard.getWidth() + 5)).append("\n");
 
         System.out.println(sb);
+    }
+
+    private void appendHorizontalBorder(PlayerBoard playerBoard, EnemyBoard enemyBoard, StringBuilder sb) {
+        sb.append("   +");
+        for(int x = 0; x < 2*enemyBoard.getWidth()+1; x++) {
+            sb.append("-");
+        }
+        sb.append("+").append("      +");
+        for(int x = 0; x < 2*playerBoard.getWidth()+1; x++) {
+            sb.append("-");
+        }
+        sb.append("+\n");
     }
 
     @Override

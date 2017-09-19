@@ -4,6 +4,8 @@ import aston.battleships.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import static aston.battleships.TextView.padCenter;
+
 /**
  * Created by cooperwd on 19/09/2017.
  */
@@ -16,8 +18,8 @@ public class TextViewTest {
     @Before
     public void setup(){
         //Boards
-        playerBoard = new PlayerBoardImpl(7,7);
-        enemyBoard = new EnemyBoardImpl(7,7, 6);
+        playerBoard = new PlayerBoardImpl(17,12);
+        enemyBoard = new EnemyBoardImpl(17,12, 6);
         // Ships
         smallShip = new ShipImpl(2, new Coordinates(0,0), Orientation.DOWN);
         mediumShip = new ShipImpl(3, new Coordinates(2,1), Orientation.DOWN);
@@ -40,11 +42,14 @@ public class TextViewTest {
     }
 
     @Test
-    public void viewBoards(){
+    public void testViewBoards() {
         view = new TextView();
         view.viewBoards(playerBoard, enemyBoard);
     }
 
+    @Test
+    public void testPadCentre() {
+    }
 
 
 }
