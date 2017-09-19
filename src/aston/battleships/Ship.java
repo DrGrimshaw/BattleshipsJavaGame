@@ -9,5 +9,7 @@ public interface Ship {
     public void takeAHit();
     public boolean isSunk();
     public Coordinates getStartingPosition();
+    public Coordinates getEndPosition();
     public Orientation getOrientation();
+    public Coordinates[] getAllCoordinates();
 }

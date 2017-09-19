@@ -1,6 +1,7 @@
 package aston.battleships;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PlayerBoardImpl implements PlayerBoard {
@@ -9,7 +10,10 @@ public class PlayerBoardImpl implements PlayerBoard {
     private final List<Ship> ships;
 
     public PlayerBoardImpl(int newWidth, int newHeight) {
-        // TODO: check for legal arguments
+        if(newWidth <= 0 || newHeight <= 0){
+            throw new IllegalArgumentException("You cannot make a grid size of "
+                    + newWidth + " by " + newHeight );
+        }
 
         width = newWidth;
         height = newHeight;
@@ -37,23 +41,33 @@ public class PlayerBoardImpl implements PlayerBoard {
 
     @Override
     public void placeShip(Ship ship) {
-
-        // test if new ship will be out of bounds
-        // we don't need to check startingPosition is in bounds because Ship constructor guarantees its coordinates are non-negative
-        Coordinates startingPosition = ship.getStartingPosition();
-        Orientation orientation = ship.getOrientation();
-        if (orientation == Orientation.RIGHT) {
-            new Coordinates(startingPosition.x + ship.getLength() - 1, startingPosition.y).checkBounds(width, height);
-        } else {
-            new Coordinates(startingPosition.x , startingPosition.y + ship.getLength() - 1).checkBounds(width, height);
+        if(ship == null) {
+            throw new IllegalArgumentException("Tried to place a null ship.");
         }
 
-        // TODO: test if new ship overlaps any previous ship
+        // test if new ship will be out of bounds
+        // we don't need to check startingPosition is in bounds,
+        // because Ship constructor guarantees its coordinates are non-negative
+        ship.getEndPosition().checkBounds(width, height);
+
+        // test if new ship overlaps any previous ship
+        for(Coordinates c : ship.getAllCoordinates()) {
+            if(getCellState(c) != CellState.NOTHING){
+                throw new IllegalArgumentException("This ship is overlapping another ship.");
+            }
+        }
+
 
         // otherwise,
-        // TODO: update the cell states for the new ship
+        // update the cell states for the new ship
+        for(Coordinates c : ship.getAllCoordinates()) {
+            grid[c.x][c.y] = CellState.SHIP_NOT_HIT;
+        }
 
-        // TODO: add the ship to the list of ships
+
+
+        // add the ship to the list of ships
+        ships.add(ship);
     }
 
     @Override
@@ -65,8 +79,9 @@ public class PlayerBoardImpl implements PlayerBoard {
     @Override
     public boolean hasGuessedAlready(Coordinates coordinates) {
         coordinates.checkBounds(width, height);
-        // TODO: a ship not hit is not yet guessed
-        return getCellState(coordinates) != CellState.NOTHING;
+        // a ship not hit is not yet guessed
+        return getCellState(coordinates) != CellState.NOTHING
+                && getCellState(coordinates) != CellState.SHIP_NOT_HIT;
     }
 
     @Override
@@ -93,7 +108,7 @@ public class PlayerBoardImpl implements PlayerBoard {
 
     @Override
     public List<Ship> getShips() {
-        return ships;
+        return Collections.unmodifiableList(ships);
     }
 
     @Override
@@ -104,9 +119,26 @@ public class PlayerBoardImpl implements PlayerBoard {
     @Override
     public CellState takeAHit(Coordinates coordinates) {
         coordinates.checkBounds(width, height);
-        // TODO: check they haven't already hit here
-        // TODO: find the ship, if it exists, make it take a hit.
-        // TODO: return correct cell state
-        return null;
+        // check they haven't already hit here
+        if(hasGuessedAlready(coordinates) ){
+            throw new IllegalArgumentException("You have already guessed " + coordinates);
+        }
+
+        // find the ship, if it exists, make it take a hit.
+        Ship ship = getShip(coordinates);
+        if(ship != null){
+            ship.takeAHit();
+
+            if(ship.isSunk()) {
+                for(Coordinates c : ship.getAllCoordinates()) {
+                    grid[c.x][c.y] = CellState.SHIP_SUNK;
+                }
+            } else {
+                grid[coordinates.x][coordinates.y] = CellState.SHIP_HIT;
+            }
+        } else {
+            grid[coordinates.x][coordinates.y] = CellState.MISS;
+        }
+        return grid[coordinates.x][coordinates.y];
     }
 }

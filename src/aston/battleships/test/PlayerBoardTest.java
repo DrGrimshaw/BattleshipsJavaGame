@@ -25,7 +25,7 @@ public class PlayerBoardTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testConstructIncorrect() {
-        //new PlayerBoardImpl(0, 0);
+        new PlayerBoardImpl(0, 5);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class PlayerBoardTest {
         playerBoard.placeShip(new ShipImpl(3, new Coordinates(2, 2), Orientation.DOWN));
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = IndexOutOfBoundsException.class)
     public void testPlaceShipLongerThanGridOutsideBounds() {
         playerBoard.placeShip(new ShipImpl(8, new Coordinates(2, 0), Orientation.DOWN));
     }
@@ -105,7 +105,7 @@ public class PlayerBoardTest {
     @Test
     public void testGetCellStateHit() {
         playerBoard.placeShip(ship);
-        playerBoard.getShip(new Coordinates(0,0));
+        playerBoard.takeAHit(new Coordinates(0,0));
         assertEquals(playerBoard.getCellState(new Coordinates(0,0)),CellState.SHIP_HIT);
     }
 
@@ -113,9 +113,9 @@ public class PlayerBoardTest {
     public void testGetCellStateSunk() {
         playerBoard.placeShip(ship);
         playerBoard.takeAHit(new Coordinates(0,0));
-        playerBoard.takeAHit(new Coordinates(0,1));
-        playerBoard.takeAHit(new Coordinates(0,2));
-        assertEquals(playerBoard.getCellState(new Coordinates(0,2)),CellState.SHIP_SUNK);
+        playerBoard.takeAHit(new Coordinates(1,0));
+        playerBoard.takeAHit(new Coordinates(2,0));
+        assertEquals(playerBoard.getCellState(new Coordinates(2,0)),CellState.SHIP_SUNK);
     }
 
     @Test
@@ -151,6 +151,7 @@ public class PlayerBoardTest {
 
     @Test
     public void testGameOverFalse() {
+        playerBoard.placeShip(ship);
         assertFalse(playerBoard.isGameOver());
     }
 
@@ -158,8 +159,8 @@ public class PlayerBoardTest {
     public void testGameOverTrue() {
         playerBoard.placeShip(ship);
         playerBoard.takeAHit(new Coordinates(0,0));
-        playerBoard.takeAHit(new Coordinates(0,1));
-        playerBoard.takeAHit(new Coordinates(0,2));
+        playerBoard.takeAHit(new Coordinates(1,0));
+        playerBoard.takeAHit(new Coordinates(2,0));
         assertTrue(playerBoard.isGameOver());
     }
 
