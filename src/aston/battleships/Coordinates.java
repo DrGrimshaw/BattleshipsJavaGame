@@ -1,6 +1,12 @@
 package aston.battleships;
 
 public class Coordinates {
+    public class MalformattedException extends Exception {
+        public MalformattedException(String message) {
+        super(message);
+        }
+    }
+
     public final int x;
     public final int y;
 
@@ -9,15 +15,15 @@ public class Coordinates {
         this.y = y;
     }
 
-    public Coordinates (String coordinatesStr) {
+    public Coordinates (String coordinatesStr) throws MalformattedException {
         if(coordinatesStr.isEmpty()) {
-            throw new IllegalArgumentException("No coordinates entered.");
+            throw new MalformattedException("No coordinates entered.");
         }
 
         char letter = coordinatesStr.charAt(0);
         char upperCaseLetter = Character.toUpperCase(letter);
         if(upperCaseLetter < 'A' || upperCaseLetter > 'Z') {
-            throw new IllegalArgumentException("First character not between A and Z");
+            throw new MalformattedException("First character not between A and Z.");
         } else {
             x = upperCaseLetter - 'A';
         }
@@ -27,7 +33,7 @@ public class Coordinates {
             int number = Integer.parseInt(numberStr);
             y = number - 1;
         } catch(NumberFormatException e) {
-            throw new IllegalArgumentException("Malformatted number");
+            throw new MalformattedException("Malformatted number.");
         }
     }
 

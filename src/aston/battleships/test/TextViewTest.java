@@ -16,7 +16,7 @@ public class TextViewTest {
     TextView view;
 
     @Before
-    public void setup(){
+    public void setup() throws PlayerBoard.ShipOverlapException {
         //Boards
         playerBoard = new PlayerBoardImpl(17,12);
         enemyBoard = new EnemyBoardImpl(17,12, 6);
