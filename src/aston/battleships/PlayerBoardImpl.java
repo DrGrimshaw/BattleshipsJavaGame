@@ -40,7 +40,7 @@ public class PlayerBoardImpl implements PlayerBoard {
     }
 
     @Override
-    public void placeShip(Ship ship) {
+    public void placeShip(Ship ship) throws ShipOverlapException {
         if(ship == null) {
             throw new IllegalArgumentException("Tried to place a null ship.");
         }
@@ -53,18 +53,15 @@ public class PlayerBoardImpl implements PlayerBoard {
         // test if new ship overlaps any previous ship
         for(Coordinates c : ship.getAllCoordinates()) {
             if(getCellState(c) != CellState.NOTHING){
-                throw new IllegalArgumentException("This ship is overlapping another ship.");
+                throw new ShipOverlapException();
             }
         }
-
 
         // otherwise,
         // update the cell states for the new ship
         for(Coordinates c : ship.getAllCoordinates()) {
             grid[c.x][c.y] = CellState.SHIP_NOT_HIT;
         }
-
-
 
         // add the ship to the list of ships
         ships.add(ship);
