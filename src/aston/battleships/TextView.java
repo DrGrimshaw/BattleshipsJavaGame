@@ -7,9 +7,32 @@ import java.util.List;
  */
 public class TextView implements View {
 
+    private static final String ENEMY_RESIGNED_TEXT =
+            "             ~ ENEMY RESIGNED - YOU WIN ~\n" +
+            "                                   .''.\n" +
+            "       .''.      .        *''*    :_\\/_:     .\n" +
+            "      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.\n" +
+            "  .''.: /\\ :    /)\\   ':'* /\\ *  : '..'.  -=:o:=-\n" +
+            " :_\\/_:'.:::.  | ' *''*    * '.\\'/.'_\\(/_'.':'.'\n" +
+            " : /\\ : :::::  =  *_\\/_*     -= o =- /)\\    '  *\n" +
+            "  '..'  ':::' === * /\\ *     .'/.\\'.  ' ._____\n" +
+            "      *        |   *..*         :       |.   |' .---\"|\n" +
+            "        *      |     _           .--'|  ||   | _|    |\n" +
+            "        *      |  .-'|       __  |   |  |    ||      |\n" +
+            "     .-----.   |  |' |  ||  |  | |   |  |    ||      |\n" +
+            " ___'       ' /\"\\ |  '-.\"\".    '-'   '-.'    '`      |____\n" +
+            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+            "                       ~-~-~-~-~-~-~-~-~-~   /|\n" +
+            "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n" +
+            "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n" +
+            "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n" +
+            "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
+
+
+
+
     public static String padCenter(String input, int newLength) {
-        int inputLength = input.length();
-        int totalSpaces = newLength - inputLength;
+        int totalSpaces = newLength - input.length();
 
         StringBuilder sb  = new StringBuilder();
         for(int i = 0; i < totalSpaces/2; i++) {
@@ -29,7 +52,7 @@ public class TextView implements View {
     public void viewBoards(PlayerBoard playerBoard, EnemyBoard enemyBoard) {
         StringBuilder sb = new StringBuilder();
 
-        //Enemy Title row
+        //Player and Enemy Title row
         sb.append("  ").append(padCenter("ENEMY BOARD", 2*enemyBoard.getWidth() + 5));
         sb.append("    ").append(padCenter("YOUR BOARD", 2*playerBoard.getWidth() + 5)).append("\n");
 
@@ -65,7 +88,8 @@ public class TextView implements View {
                         sb.append("H ");
                         break;
                     default:
-                        throw new IllegalStateException("Should not be able to see " + cellState + " on enemy board at x:" + x + " y:" + y);
+                        throw new IllegalStateException("Should not be able to see "
+                                + cellState + " on enemy board at x:" + x + " y:" + y);
                 }
             }
             sb.append("|   ").append(String.format("%2d",rowNumber)).append(" | ");
@@ -88,7 +112,8 @@ public class TextView implements View {
                         sb.append("S ");
                         break;
                     default:
-                        throw new IllegalStateException("Should not be able to see " + cellState + " on player board at x:" + x + " y:" + y);
+                        throw new IllegalStateException("Should not be able to see "
+                                + cellState + " on player board at x:" + x + " y:" + y);
                 }
             }
             sb.append("|\n");
@@ -97,10 +122,17 @@ public class TextView implements View {
         appendHorizontalBorder(playerBoard, enemyBoard, sb);
 
         // Ships Remaining
-        sb.append("  ").append(padCenter("Ships remaining: " + enemyBoard.getNumberOfShipsRemaining(), 2*enemyBoard.getWidth() + 5));
-        sb.append("    ").append(padCenter("Ships remaining: " + playerBoard.getNumberOfShipsRemaining(), 2*playerBoard.getWidth() + 5)).append("\n");
+        sb.append("  ").append(padCenter("Ships remaining: "
+                + enemyBoard.getNumberOfShipsRemaining(), 2*enemyBoard.getWidth() + 5));
+        sb.append("    ").append(padCenter("Ships remaining: "
+                + playerBoard.getNumberOfShipsRemaining(), 2*playerBoard.getWidth() + 5)).append("\n");
 
         System.out.println(sb);
+    }
+
+    // TODO:
+    private String cellStateToString(CellState state) {
+        return null;
     }
 
     private void appendHorizontalBorder(PlayerBoard playerBoard, EnemyBoard enemyBoard, StringBuilder sb) {
@@ -134,7 +166,7 @@ public class TextView implements View {
                 "- When the game starts you can select a position on the enemy board to fire on\n" +
                 "- You cannot fire in the same place twice\n" +
                 "- The game is only over when either you or your enemy have no battleships are left\n" +
-                "- You may also resign from a game\n" +
+                "- You may also resign from a game by typing \"resign\"\n" +
                 "~ GOOD LUCK PLAYER ~"
         );
     }
@@ -199,27 +231,7 @@ public class TextView implements View {
                 );
                 break;
             case ENEMY_RESIGNED:
-                System.out.println(
-                        "             ~ ENEMY RESIGNED - YOU WIN ~\n" +
-                        "                                   .''.\n" +
-                        "       .''.      .        *''*    :_\\/_:     .\n" +
-                        "      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.\n" +
-                        "  .''.: /\\ :    /)\\   ':'* /\\ *  : '..'.  -=:o:=-\n" +
-                        " :_\\/_:'.:::.  | ' *''*    * '.\\'/.'_\\(/_'.':'.'\n" +
-                        " : /\\ : :::::  =  *_\\/_*     -= o =- /)\\    '  *\n" +
-                        "  '..'  ':::' === * /\\ *     .'/.\\'.  ' ._____\n" +
-                        "      *        |   *..*         :       |.   |' .---\"|\n" +
-                        "        *      |     _           .--'|  ||   | _|    |\n" +
-                        "        *      |  .-'|       __  |   |  |    ||      |\n" +
-                        "     .-----.   |  |' |  ||  |  | |   |  |    ||      |\n" +
-                        " ___'       ' /\"\\ |  '-.\"\".    '-'   '-.'    '`      |____\n" +
-                        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
-                        "                       ~-~-~-~-~-~-~-~-~-~   /|\n" +
-                        "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n" +
-                        "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n" +
-                        "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n" +
-                        "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~"
-                );
+                System.out.println(ENEMY_RESIGNED_TEXT);
                 break;
         }
     }
