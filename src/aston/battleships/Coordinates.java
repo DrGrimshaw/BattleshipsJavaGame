@@ -10,16 +10,26 @@ public class Coordinates {
     }
 
     public Coordinates (String coordinatesStr) {
-        // TODO: check error cases
+        if(coordinatesStr.isEmpty()) {
+            throw new IllegalArgumentException("No coordinates entered.");
+        }
+
         char letter = coordinatesStr.charAt(0);
         char upperCaseLetter = Character.toUpperCase(letter);
-        x = upperCaseLetter - 'A';
+        if(upperCaseLetter < 'A' || upperCaseLetter > 'Z') {
+            throw new IllegalArgumentException("First character not between A and Z");
+        } else {
+            x = upperCaseLetter - 'A';
+        }
 
         String numberStr = coordinatesStr.substring(1);
-        int number = Integer.parseInt(numberStr);
-        y = number - 1;
+        try {
+            int number = Integer.parseInt(numberStr);
+            y = number - 1;
+        } catch(NumberFormatException e) {
+            throw new IllegalArgumentException("Malformatted number");
+        }
     }
-
 
     public void checkBounds(int width, int height) {
         if(x < 0 || x >= width || y < 0 || y >= height) {

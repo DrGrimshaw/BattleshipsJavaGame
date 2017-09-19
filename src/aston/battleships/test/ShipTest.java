@@ -1,11 +1,9 @@
 package aston.battleships.test;
 import static org.junit.Assert.*;
-
 import aston.battleships.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class ShipTest {
     private Ship ship;
@@ -17,12 +15,10 @@ public class ShipTest {
         ship = new ShipImpl(3, coordinates, Orientation.RIGHT);
     }
 
-
     @Test
     public void testGetLength() {
         assertEquals(ship.getLength(), 3);
     }
-
 
     @Test
     public void testIsAt() {
@@ -46,7 +42,6 @@ public class ShipTest {
         Coordinates noShipDown = new Coordinates(1,3);
         assertFalse(ship.isAt(noShipDown));
     }
-
 
     @Test
     public void testNoHits() {
@@ -74,7 +69,6 @@ public class ShipTest {
         ship.takeAHit();
         ship.takeAHit();
     }
-
 
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidLength() {
