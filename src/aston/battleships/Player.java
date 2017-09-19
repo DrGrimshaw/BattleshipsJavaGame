@@ -1,5 +1,7 @@
 package aston.battleships;
 
+import java.io.IOException;
+
 public interface Player {
     public class ResignedException extends Exception {
 
@@ -11,4 +13,5 @@ public interface Player {
     public boolean isGameOver();
     public boolean hasAlreadyGuessed(Coordinates coordinates);
     public void viewState();
+    public void updateEnemyBoard(Coordinates coordinates, CellState cellState);
 }

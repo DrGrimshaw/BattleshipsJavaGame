@@ -4,6 +4,9 @@ import aston.battleships.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static aston.battleships.TextView.padCenter;
 
 /**
@@ -16,7 +19,7 @@ public class TextViewTest {
     TextView view;
 
     @Before
-    public void setup(){
+    public void setup() throws PlayerBoard.ShipOverlapException {
         //Boards
         playerBoard = new PlayerBoardImpl(17,12);
         enemyBoard = new EnemyBoardImpl(17,12, 6);
@@ -30,6 +33,7 @@ public class TextViewTest {
         playerBoard.placeShip(largeShip);
         // Make a hit on 2 ships
         playerBoard.takeAHit(new Coordinates(0,1));
+        playerBoard.takeAHit(new Coordinates(0,0));
         playerBoard.takeAHit(new Coordinates(1,6));
         playerBoard.takeAHit(new Coordinates(5,5));
         // Try to hit enemy
@@ -39,16 +43,38 @@ public class TextViewTest {
         enemyBoard.updateCellState(new Coordinates(6,6), CellState.SHIP_HIT);
         enemyBoard.updateCellState(new Coordinates(5,6), CellState.SHIP_HIT);
         enemyBoard.updateCellState(new Coordinates(4,6), CellState.SHIP_HIT);
+
+        view = new TextView();
     }
 
     @Test
     public void testViewBoards() {
-        view = new TextView();
         view.viewBoards(playerBoard, enemyBoard);
     }
 
     @Test
-    public void testPadCentre() {
+    public void testWelcomeMessage() {
+        view.welcomeUser();
+    }
+
+    @Test
+    public void testAnnounceGameOverWin() {
+        view.announceGameOver(View.GameOverMessage.WON);
+    }
+
+    @Test
+    public void testAnnounceGameOverLost() {
+        view.announceGameOver(View.GameOverMessage.LOST);
+    }
+
+    @Test
+    public void testShipsLeftToPlace() {
+        List<Integer> ships = new ArrayList<Integer>();
+        ships.add(2);
+        ships.add(3);
+        ships.add(4);
+        ships.add(5);
+        view.viewShipsLeftToPlace(ships);
     }
 
 
