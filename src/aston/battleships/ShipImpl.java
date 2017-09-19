@@ -82,6 +82,24 @@ public class ShipImpl implements Ship {
     }
 
     @Override
+    public Coordinates[] getAllCoordinates() {
+        Coordinates[] allCoordinates = new Coordinates[length];
+        switch(orientation){
+            case DOWN:
+                for(int i = 0; i < length; i++) {
+                    allCoordinates[i] = new Coordinates(startingPosition.x,startingPosition.y+i);
+                }
+                break;
+            case RIGHT:
+                for(int i = 0; i < length; i++) {
+                    allCoordinates[i] = new Coordinates(startingPosition.x+i,startingPosition.y);
+                }
+                break;
+        }
+        return allCoordinates;
+    }
+
+    @Override
     public Coordinates getStartingPosition() {
         return startingPosition;
     }
