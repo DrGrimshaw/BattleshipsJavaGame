@@ -29,15 +29,25 @@ public class TextView implements View {
     public void viewBoards(PlayerBoard playerBoard, EnemyBoard enemyBoard) {
         StringBuilder sb = new StringBuilder();
 
-        //TODO: Make enemy Title row
+        //Enemy Title row
         sb.append("  ").append(padCenter("ENEMY BOARD", 2*enemyBoard.getWidth() + 5));
         sb.append("    ").append(padCenter("YOUR BOARD", 2*playerBoard.getWidth() + 5)).append("\n");
 
-        //TODO: Make enemy alphabet row
-        //TODO: Make grid separator (start)
+        //Player and Enemy alphabet row
+        sb.append("     ");
+        for(char i = 'A'; i < 'A' + enemyBoard.getWidth(); i++) {
+            sb.append(i).append(" ");
+        }
+        sb.append("         ");
+        for(char i = 'A'; i < 'A' + playerBoard.getWidth(); i++) {
+            sb.append(i).append(" ");
+        }
+        sb.append("\n");
+
+        //Grid separator (start)
         appendHorizontalBorder(playerBoard, enemyBoard, sb);
 
-        //Make enemy and player grid rows
+        //Enemy and player grid rows
         for(int y = 0; y < enemyBoard.getHeight(); y++) {
             int rowNumber = y+1;
             sb.append(String.format("%2d",rowNumber)).append(" | ");
@@ -86,9 +96,7 @@ public class TextView implements View {
 
         appendHorizontalBorder(playerBoard, enemyBoard, sb);
 
-        //TODO: Make player Title row
-        //TODO: Make player alphabet row
-
+        // Ships Remaining
         sb.append("  ").append(padCenter("Ships remaining: " + enemyBoard.getNumberOfShipsRemaining(), 2*enemyBoard.getWidth() + 5));
         sb.append("    ").append(padCenter("Ships remaining: " + playerBoard.getNumberOfShipsRemaining(), 2*playerBoard.getWidth() + 5)).append("\n");
 
