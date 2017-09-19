@@ -85,8 +85,8 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public boolean isGameOver() {
-        return playerBoard.isGameOver();
+    public boolean hasLost() {
+        return playerBoard.areAllShipsSunk();
     }
 
     @Override

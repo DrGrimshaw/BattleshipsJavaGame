@@ -150,18 +150,18 @@ public class PlayerBoardTest {
     }
 
     @Test
-    public void testGameOverFalse() throws PlayerBoard.ShipOverlapException {
+    public void testNotAllShipsSunk() throws PlayerBoard.ShipOverlapException {
         playerBoard.placeShip(ship);
-        assertFalse(playerBoard.isGameOver());
+        assertFalse(playerBoard.areAllShipsSunk());
     }
 
     @Test
-    public void testGameOverTrue() throws PlayerBoard.ShipOverlapException {
+    public void testAllShipsAreSunk() throws PlayerBoard.ShipOverlapException {
         playerBoard.placeShip(ship);
         playerBoard.takeAHit(new Coordinates(0,0));
         playerBoard.takeAHit(new Coordinates(1,0));
         playerBoard.takeAHit(new Coordinates(2,0));
-        assertTrue(playerBoard.isGameOver());
+        assertTrue(playerBoard.areAllShipsSunk());
     }
 
 }
