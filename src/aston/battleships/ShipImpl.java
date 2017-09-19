@@ -36,16 +36,28 @@ public class ShipImpl implements Ship {
     }
 
     @Override
+    public Coordinates getEndPosition() {
+        switch(orientation){
+            case DOWN:
+                return new Coordinates(startingPosition.x,startingPosition.y+length-1);
+            case RIGHT:
+                return new Coordinates(startingPosition.x+length-1,startingPosition.y);
+        }
+        throw new IllegalStateException("Null orientation");
+    }
+
+    @Override
     public boolean isAt(Coordinates coordinates) {
-        switch(this.orientation){
+        Coordinates endPosition = getEndPosition();
+        switch(orientation){
             case DOWN:
                 return coordinates.x == startingPosition.x
                     && coordinates.y >= startingPosition.y
-                    && coordinates.y <= startingPosition.y+length-1; // TODO: there is code duplication here and in PlayerBoardImpl
+                    && coordinates.y <= endPosition.y;
             case RIGHT:
                 return coordinates.y == startingPosition.y
                     && coordinates.x >= startingPosition.x
-                    && coordinates.x <= startingPosition.x+length-1;
+                    && coordinates.x <= endPosition.x;
         }
         throw new IllegalStateException("Null orientation");
     }

@@ -10,4 +10,5 @@ public interface Ship {
     public boolean isSunk();
     public Coordinates getStartingPosition();
     public Orientation getOrientation();
+    public Coordinates getEndPosition();
 }
