@@ -60,7 +60,8 @@ public class ClientProgram {
         } catch(Player.QuitException e) {
             // TODO:
         } catch(IOException e) {
-            // TODO: lost connection to server
+            System.err.println("The client has unexpectedly disconnected");
+            System.exit(1);
         } finally {
             if(socket != null) {
                 try { socket.close(); } catch(IOException ignored) {}
@@ -75,15 +76,6 @@ public class ClientProgram {
     private void sendf(String data, Object... args) {
         out.printf(data + "\r\n", args);
         out.flush();
-    }
-
-    private String receive() throws Player.QuitException {
-        try {
-            return in.readLine();
-        } catch(IOException e) {
-            System.err.println("The client has unexpectedly disconnected");
-            throw new Player.QuitException();
-        }
     }
 
     private Player handleStart(String command) {
