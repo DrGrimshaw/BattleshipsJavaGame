@@ -15,16 +15,17 @@ public class ClientProgram {
     BufferedReader in;
     PrintWriter out;
     Player player;
+    String hostname;
 
-    ClientProgram() {
-
+    ClientProgram(String hostname) {
+        this.hostname = hostname;
     }
 
     public void run() {
         Socket socket = null;
         try {
             // make connection to the server
-            socket = new Socket("localhost", 9090);
+            socket = new Socket(hostname, NetworkPlayer.PORT);
             InputStreamReader isr = new InputStreamReader(socket.getInputStream());
             in = new BufferedReader(isr);
             out = new PrintWriter(socket.getOutputStream());
