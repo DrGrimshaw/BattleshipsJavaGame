@@ -1,5 +1,8 @@
 package aston.battleships.networkclient;
 
+import aston.battleships.HumanPlayer;
+import aston.battleships.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +15,7 @@ import java.net.Socket;
 public class ClientProgram {
     BufferedReader in;
     PrintWriter out;
+    Player player;
 
     ClientProgram() {
 
@@ -26,11 +30,13 @@ public class ClientProgram {
             in = new BufferedReader(isr);
             out = new PrintWriter(socket.getOutputStream());
 
-            // TODO: set up the game.
+            // set up the game.
+            String command = in.readLine();
+            player = handleStart(command);
 
             while(true) {
                 // keep asking the server what it wants us to do: i.e. wait for a command
-                String command = in.readLine();
+                command = in.readLine();
                 // dispatch the command
 
                 if(command.startsWith("PLACE_SHIP")) {
@@ -56,6 +62,9 @@ public class ClientProgram {
         }
     }
 
+    private Player handleStart(String command) {
+    }
+
     private void handleGameOver(String command) {
     }
 
@@ -71,6 +80,4 @@ public class ClientProgram {
     private void handlePlaceShip(String command) {
 
     }
-
-
 }
