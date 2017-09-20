@@ -21,6 +21,10 @@ public class ClientProgram {
         this.hostname = hostname;
     }
 
+    public static void main(String[] args) {
+        new ClientProgram("werp.site").run();
+    }
+
     public void run() {
         Socket socket = null;
         try {
@@ -54,9 +58,11 @@ public class ClientProgram {
                 }
             }
         } catch(Player.ResignException e) {
-            // TODO:
+            send("RESIGN");
         } catch(Player.QuitException e) {
-            // TODO:
+            send("RESIGN");
+            System.err.println("The player has quit unexpectedly");
+            System.exit(1);
         } catch(IOException e) {
             System.err.println("The client has unexpectedly disconnected");
             System.exit(1);
