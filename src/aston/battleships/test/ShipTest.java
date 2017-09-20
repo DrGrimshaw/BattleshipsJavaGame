@@ -61,6 +61,17 @@ public class ShipTest {
         assertTrue(ship.isSunk());
     }
 
+    @Test
+    public void testStartingPosition() {
+        assertEquals(ship.getStartingPosition(), new Coordinates(1,2));
+    }
+
+    @Test
+    public void testGetEndPosition() {
+        assertEquals(ship.getEndPosition(), new Coordinates(3,2));
+    }
+
+
     @Test(expected = IllegalStateException.class)
     public void testTooManyHits() {
         ship.takeAHit();
@@ -88,5 +99,13 @@ public class ShipTest {
     public void testNegativeCoordinates() {
         Coordinates newCoordinates = new Coordinates(-1, 0);
         new ShipImpl(3, newCoordinates, Orientation.RIGHT);
+    }
+
+    @Test
+    public void testGetAllCoordinates() {
+        Coordinates[] allCoordinates = ship.getAllCoordinates();
+        assertEquals(allCoordinates[0], ship.getStartingPosition());
+        assertEquals(allCoordinates[1], new Coordinates(2,2));
+        assertEquals(allCoordinates[2], ship.getEndPosition());
     }
 }

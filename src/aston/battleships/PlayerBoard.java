@@ -13,6 +13,6 @@ public interface PlayerBoard {
     public Ship getShip(Coordinates coordinates);
     public int getNumberOfShipsRemaining();
     public List<Ship> getShips();
-    public boolean isGameOver();
+    public boolean areAllShipsSunk();
     public CellState takeAHit(Coordinates coordinates);
 }

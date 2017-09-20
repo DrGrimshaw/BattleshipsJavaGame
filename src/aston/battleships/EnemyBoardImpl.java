@@ -33,8 +33,11 @@ public class EnemyBoardImpl implements EnemyBoard {
         coordinates.checkBounds(width, height);
         if(newState == null) {
             throw new IllegalArgumentException("New cell state was null.");
-        } else if(newState == CellState.SHIP_SUNK || newState == CellState.SHIP_NOT_HIT) {
+        } else if(newState == CellState.SHIP_NOT_HIT) {
             throw new IllegalArgumentException(newState + " is not a valid cell state for enemy board.");
+        } else if(newState == CellState.SHIP_SUNK) {
+            shipsRemaining --;
+            grid[coordinates.x][coordinates.y] = CellState.SHIP_HIT;
         } else {
             grid[coordinates.x][coordinates.y] = newState;
         }

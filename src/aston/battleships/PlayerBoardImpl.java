@@ -109,7 +109,7 @@ public class PlayerBoardImpl implements PlayerBoard {
     }
 
     @Override
-    public boolean isGameOver() {
+    public boolean areAllShipsSunk() {
         return getNumberOfShipsRemaining() == 0;
     }
 
