@@ -1,9 +1,6 @@
 package aston.battleships.networkclient;
 
-import aston.battleships.CellState;
-import aston.battleships.Coordinates;
-import aston.battleships.HumanPlayer;
-import aston.battleships.Player;
+import aston.battleships.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -93,6 +90,14 @@ public class ClientProgram {
     }
 
     private void handleGameOver(String command) {
+        String[] c = command.split(" ");
+        try {
+            View.GameOverMessage gameOverMessage = View.GameOverMessage.valueOf(c[1]);
+            player.getView().announceGameOver(gameOverMessage);
+        } catch(IllegalArgumentException | IndexOutOfBoundsException e) {
+            System.err.println("Failed to parse the GAME_OVER command: " + command);
+            System.exit(1);
+        }
     }
 
     private void handleMoveResponse(String command) {
