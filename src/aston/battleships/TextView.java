@@ -218,7 +218,7 @@ public class TextView implements View {
     }
 
     @Override
-    public void viewResultOfMove(CellState cellState) {
+    public void viewResultOfMove(Coordinates coordinates, CellState cellState) {
         //TODO: Different messages from a list for each state
         switch(cellState){
             case MISS:
@@ -229,6 +229,23 @@ public class TextView implements View {
                 break;
             case SHIP_SUNK:
                 System.out.println("\n~ YOU SUNK THEIR BATTLESHIP ~\n");
+                break;
+            default:
+                throw new IllegalArgumentException("Move cannot result in " + cellState);
+        }
+    }
+
+    @Override
+    public void viewResultOfEnemyMove(Coordinates coordinates, CellState cellState) {
+        switch(cellState){
+            case MISS:
+                System.out.println("~ ENEMY FIRED ON " + coordinates + " AND MISSED ~\n");
+                break;
+            case SHIP_HIT:
+                System.out.println("~ ENEMY FIRED ON " + coordinates + " AND HIT YOUR BATTLESHIP ~\n");
+                break;
+            case SHIP_SUNK:
+                System.out.println("~ ENEMY FIRED ON " + coordinates + " AND SUNK YOUR BATTLESHIP ~\n");
                 break;
             default:
                 throw new IllegalArgumentException("Move cannot result in " + cellState);

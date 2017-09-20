@@ -27,7 +27,12 @@ public class NullView implements View {
     }
 
     @Override
-    public void viewResultOfMove(CellState cellState) {
+    public void viewResultOfMove(Coordinates coordinates, CellState cellState) {
+
+    }
+
+    @Override
+    public void viewResultOfEnemyMove(Coordinates coordinates, CellState cellState) {
 
     }
 

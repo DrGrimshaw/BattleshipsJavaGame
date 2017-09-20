@@ -53,4 +53,10 @@ public class CoordinatesTest {
     public void testNullString() throws Coordinates.MalformattedException {
         Coordinates coordinates = new Coordinates("");
     }
+
+    @Test
+    public void testToString() {
+        Coordinates coordinates = new Coordinates(4,0);
+        assertEquals(coordinates.toString(), "E1");
+    }
 }
