@@ -8,11 +8,11 @@ public class Game {
     Player player1, player2, nextToPlay;
     List<Integer> shipLengths;
 
-    Game(Player newPlayer1, Player newPlayer2){
+    Game(Player newPlayer1, Player newPlayer2, List<Integer> shipLengths){
         player1 = newPlayer1;
         player2 =  newPlayer2;
         nextToPlay = player1;
-        shipLengths = Arrays.asList(5, 4, 3, 3, 2);
+        this.shipLengths = shipLengths;
     }
 
     public Player getNextToPlay(){
@@ -38,10 +38,10 @@ public class Game {
 
     public void play() {
         try {
-
             player1.getView().welcomeUser();
-            player2.getView().welcomeUser();
             player1.getView().viewInstructions();
+
+            player2.getView().welcomeUser();
             player2.getView().viewInstructions();
 
             placeShips(player1);
@@ -53,7 +53,8 @@ public class Game {
                 Coordinates move = nextToPlay.chooseMove();
                 CellState result = getOpponent().takeHit(move);
                 nextToPlay.updateEnemyBoard(move, result);
-                view.viewResultOfMove(result);
+                view.viewResultOfMove(move, result);
+                getOpponent().getView().viewResultOfEnemyMove(move, result);
 
                 if(getOpponent().hasLost()) {
                     view.announceGameOver(View.GameOverMessage.WON);

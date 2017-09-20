@@ -18,11 +18,13 @@ public class HumanPlayer extends AbstractPlayer {
     public void placeShipOnToPlayerBoard(int lengthOfShip) {
         while (true) {
             try {
-                System.out.println("Please enter the starting coordinates for this ship:");
+                System.out.println("Please enter the starting coordinates for this ship (length "+lengthOfShip+"):");
                 System.out.print(">>> ");
                 String coordinatesStr = keyboard.readLine();
                 Coordinates coordinates = new Coordinates(coordinatesStr);
                 coordinates.checkBounds(playerBoard.getWidth(), playerBoard.getHeight());
+
+                // TODO: check if there are 0, 1 or 2 valid orientations
 
                 Ship ship = null;
                 while(ship == null) {
@@ -40,7 +42,6 @@ public class HumanPlayer extends AbstractPlayer {
 
                 playerBoard.placeShip(ship);
                 break;
-
             } catch(Coordinates.MalformattedException e) {
                 System.out.println("Invalid coordinates entered: " + e.getMessage());
             } catch(IndexOutOfBoundsException e) {
@@ -66,11 +67,9 @@ public class HumanPlayer extends AbstractPlayer {
                 Coordinates coordinates = new Coordinates(coordinatesStr);
                 if(enemyBoard.hasGuessed(coordinates)) {
                     System.out.println("Coordinates already guessed.");
-                    continue;
                 } else {
                     return coordinates;
                 }
-
             } catch(Coordinates.MalformattedException e) {
                 System.out.println("Invalid coordinates entered.");
             } catch(IndexOutOfBoundsException e) {
