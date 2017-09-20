@@ -222,13 +222,13 @@ public class TextView implements View {
         //TODO: Different messages from a list for each state
         switch(cellState){
             case MISS:
-                System.out.println("~ YOU MISSED ~");
+                System.out.println("~ YOU MISSED ~\n");
                 break;
             case SHIP_HIT:
-                System.out.println("~ YOU HIT AN ENEMY SHIP! ~");
+                System.out.println("~ YOU HIT AN ENEMY SHIP! ~\n");
                 break;
             case SHIP_SUNK:
-                System.out.println("~ YOU SUNK THEIR BATTLESHIP ~");
+                System.out.println("~ YOU SUNK THEIR BATTLESHIP ~\n");
                 break;
             default:
                 throw new IllegalArgumentException("Move cannot result in " + cellState);
@@ -239,7 +239,7 @@ public class TextView implements View {
     public void viewShipsLeftToPlace(List<Integer> shipLengths) {
         if(shipLengths.size() > 0) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Ships Left to place\n\n");
+            sb.append("Ships left to place\n\n");
             for (int shipLen : shipLengths) {
                 sb.append("Ship of length -");
                 for (int i = 0; i < shipLen; i++) {

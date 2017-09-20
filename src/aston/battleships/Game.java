@@ -38,7 +38,11 @@ public class Game {
 
     public void play() {
         try {
-            //TODO: welcome and instructions
+            player1.getView().welcomeUser();
+            player1.getView().viewInstructions();
+
+            player2.getView().welcomeUser();
+            player2.getView().viewInstructions();
 
             placeShips(player1);
             placeShips(player2);
