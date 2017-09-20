@@ -62,7 +62,7 @@ public class HumanPlayer extends AbstractPlayer {
                 System.out.print(">>> ");
                 String coordinatesStr = keyboard.readLine();
                 if(coordinatesStr.equalsIgnoreCase("resign")) {
-                    throw new QuitException();
+                    throw new ResignException();
                 }
                 Coordinates coordinates = new Coordinates(coordinatesStr);
                 if(enemyBoard.hasGuessed(coordinates)) {

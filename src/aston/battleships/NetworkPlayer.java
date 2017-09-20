@@ -1,5 +1,7 @@
 package aston.battleships;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.io.*;
 import java.net.*;
 import java.util.List;
@@ -9,6 +11,9 @@ import java.util.List;
  */
 public class NetworkPlayer implements Player, View {
     public static final int PORT = 9090;
+
+    ServerSocket listener = null;
+    Socket socket = null;
 
     private final BufferedReader in;
     private final PrintWriter out;
@@ -24,46 +29,74 @@ public class NetworkPlayer implements Player, View {
 
         shipsRemaining = newShipsRemaining;
 
-        ServerSocket listener = new ServerSocket(PORT);
-        Socket socket = listener.accept();
+        listener = new ServerSocket(PORT);
+        socket = listener.accept();
         InputStreamReader isr = new InputStreamReader(socket.getInputStream());
         in = new BufferedReader(isr);
         out = new PrintWriter(socket.getOutputStream());
 
-        out.println("START "+width+" "+height+" "+newShipsRemaining);
+        sendf("START %d %d %d\r\n", width, height, newShipsRemaining);
     }
+
+    private void send(String data) {
+        out.println(data);
+        out.flush();
+    }
+    private void sendf(String data, Object... args) {
+        out.printf(data + "\r\n", args);
+        out.flush();
+    }
+
+    private String receive() throws QuitException {
+        try {
+            return in.readLine();
+        } catch(IOException e) {
+            System.err.println("The client has unexpectedly disconnected");
+            throw new QuitException();
+        }
+    }
+
 
     @Override
     public void placeShipOnToPlayerBoard(int lengthOfShip) {
-        out.println("PLACE_SHIP "+lengthOfShip);
+        send("PLACE_SHIP " + lengthOfShip);
     }
 
     @Override
     public Coordinates chooseMove() throws QuitException {
-        return null;
+        send("CHOOSE_A_MOVE");
+        String response = receive();
+        if(response.equals("RESIGN")) {
+            throw new QuitException();
+        } else{
+            try {
+                return new Coordinates(response);
+            } catch(Coordinates.MalformattedException e) {
+                System.err.println("Received " + response + ", expected: Coordinates (e.g. A1)");
+                throw new QuitException();
+            }
+        }
     }
 
     @Override
     public CellState takeHit(Coordinates coordinates) throws QuitException {
-        out.println("TAKE_HIT_AT " + coordinates);
+        send("TAKE_HIT_AT " + coordinates);
 
-        try {
-            String response = in.readLine();
-            if(response.equals("MISS")) {
-                return CellState.MISS;
-            } else if(response.equals("SHIP_HIT")) {
-                return CellState.SHIP_HIT;
-            } else if(response.equals("SHIP_SUNK")) {
-                if(shipsRemaining == 0) {
-                    throw new QuitException();
-                }
-
-                shipsRemaining--;
-                return CellState.SHIP_SUNK;
-            } else {
+        String response = receive();
+        if(response.equals("MISS")) {
+            return CellState.MISS;
+        } else if(response.equals("SHIP_HIT")) {
+            return CellState.SHIP_HIT;
+        } else if(response.equals("SHIP_SUNK")) {
+            if(shipsRemaining == 0) {
+                System.err.println("Synchronisation error (shipsRemaining)");
                 throw new QuitException();
             }
-        } catch (IOException e) {
+
+            shipsRemaining--;
+            return CellState.SHIP_SUNK;
+        } else {
+            System.err.println("Received " + response + ", expected CellState (e.g. MISS)");
             throw new QuitException();
         }
     }
@@ -74,18 +107,26 @@ public class NetworkPlayer implements Player, View {
     }
 
     @Override
-    public boolean hasAlreadyGuessed(Coordinates coordinates) {
-        return false;
+    public void announceGameOver(GameOverMessage message) {
+        send("GAME_OVER " + message);
+        try {
+            if (socket != null) {
+                socket.close();
+            }
+            if(listener != null) {
+                listener.close();
+            }
+        } catch(IOException ignored) {}
     }
 
     @Override
-    public void viewState() {
-
+    public boolean hasAlreadyGuessed(Coordinates coordinates) {
+        throw new NotImplementedException();
     }
 
     @Override
     public void updateEnemyBoard(Coordinates coordinates, CellState cellState) {
-
+        sendf("MOVE_RESPONSE %s %s\n", coordinates, cellState);
     }
 
     @Override
@@ -93,33 +134,26 @@ public class NetworkPlayer implements Player, View {
         return this;
     }
 
-    @Override
-    public void viewBoards(PlayerBoard playerBoard, EnemyBoard enemyBoard) {
-
-    }
+    // These should do nothing
 
     @Override
-    public void welcomeUser() {
-
-    }
+    public void viewState() {}
 
     @Override
-    public void viewInstructions() {
-
-    }
+    public void viewBoards(PlayerBoard playerBoard, EnemyBoard enemyBoard) {}
 
     @Override
-    public void announceGameOver(GameOverMessage message) {
-
-    }
+    public void welcomeUser() {}
 
     @Override
-    public void viewResultOfMove(CellState cellState) {
-
-    }
+    public void viewInstructions() {}
 
     @Override
-    public void viewShipsLeftToPlace(List<Integer> shipLengths) {
+    public void viewResultOfMove(Coordinates coordinates, CellState cellState) {}
 
-    }
+    @Override
+    public void viewResultOfEnemyMove(Coordinates coordinates, CellState cellState) {}
+
+    @Override
+    public void viewShipsLeftToPlace(List<Integer> shipLengths) {}
 }

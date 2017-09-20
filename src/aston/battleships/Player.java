@@ -1,9 +1,8 @@
 package aston.battleships;
 
 public interface Player {
-    public class QuitException extends Exception {
-
-    }
+    public class QuitException extends Exception {}
+    public class ResignException extends QuitException {}
 
     public void placeShipOnToPlayerBoard(int lengthOfShip);
     public Coordinates chooseMove() throws QuitException;

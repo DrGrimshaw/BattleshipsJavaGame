@@ -1,5 +1,6 @@
 package aston.battleships;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -10,10 +11,10 @@ public class Program {
     public static final int HEIGHT = 7;
     public static final Integer[] SHIP_LENGTHS = { 5, 4, 3, 3, 2 };
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         new Game(
             // player 1
-            new HumanPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
+            new NetworkPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
             // player 2
             new RandomPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
             //

@@ -41,7 +41,7 @@ public class RandomPlayer extends AbstractPlayer {
     }
 
     @Override
-    public Coordinates chooseMove() throws ResignedException {
+    public Coordinates chooseMove() {
         while (true) {
             try {
                 // generate random coordinates
@@ -54,7 +54,6 @@ public class RandomPlayer extends AbstractPlayer {
                     return coordinates;
                 }
             } catch(IndexOutOfBoundsException e) {
-                continue;
             }
         }
     }

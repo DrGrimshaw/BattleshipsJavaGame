@@ -63,9 +63,12 @@ public class Game {
 
                 nextToPlay = getOpponent();
             }
-        } catch(Player.QuitException e) {
+        } catch(Player.ResignException e) {
             nextToPlay.getView().announceGameOver(View.GameOverMessage.RESIGNED);
             getOpponent().getView().announceGameOver(View.GameOverMessage.ENEMY_RESIGNED);
+        } catch(Player.QuitException e) {
+            // TODO:
+            System.err.println("Player quit unexpectedly");
         }
     }
 }
