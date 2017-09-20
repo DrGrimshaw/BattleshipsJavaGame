@@ -8,7 +8,7 @@ import java.util.List;
 public class TextView implements View {
 
     private static final String ENEMY_RESIGNED_TEXT =
-            "             ~ ENEMY RESIGNED - YOU WIN ~\n" +
+            "\n             ~ ENEMY RESIGNED - YOU WIN ~\n" +
             "                                   .''.\n" +
             "       .''.      .        *''*    :_\\/_:     .\n" +
             "      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.\n" +
@@ -29,7 +29,7 @@ public class TextView implements View {
             "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
 
     private static final String PLAYER_WON_TEXT =
-            "                     ~ YOU WIN ~\n" +
+            "\n                     ~ YOU WIN ~\n" +
             "                                   .''.\n" +
             "       .''.      .        *''*    :_\\/_:     .\n" +
             "      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.\n" +
@@ -50,7 +50,7 @@ public class TextView implements View {
             "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
 
     private static final String PLAYER_LOST_TEXT =
-            "        ~ YOU LOSE ~\n" +
+            "\n        ~ YOU LOSE ~\n" +
             "     _.-^^---....,,--\n" +
             " _--                  --_\n" +
             "<                        >)\n" +
@@ -64,7 +64,7 @@ public class TextView implements View {
             " _____.,-#%&$@%#&#~,._____ ";
 
     private static final String PLAYER_RESIGNED_TEXT =
-            "~ YOU RESIGNED - ENEMY WINS ~\n" +
+            "\n~ YOU RESIGNED - ENEMY WINS ~\n" +
             "     _.-^^---....,,--\n" +
             " _--                  --_\n" +
             "<                        >)\n" +
@@ -222,13 +222,13 @@ public class TextView implements View {
         //TODO: Different messages from a list for each state
         switch(cellState){
             case MISS:
-                System.out.println("~ YOU MISSED ~\n");
+                System.out.println("\n~ YOU MISSED ~\n");
                 break;
             case SHIP_HIT:
-                System.out.println("~ YOU HIT AN ENEMY SHIP! ~\n");
+                System.out.println("\n~ YOU HIT AN ENEMY SHIP! ~\n");
                 break;
             case SHIP_SUNK:
-                System.out.println("~ YOU SUNK THEIR BATTLESHIP ~\n");
+                System.out.println("\n~ YOU SUNK THEIR BATTLESHIP ~\n");
                 break;
             default:
                 throw new IllegalArgumentException("Move cannot result in " + cellState);
@@ -239,7 +239,7 @@ public class TextView implements View {
     public void viewShipsLeftToPlace(List<Integer> shipLengths) {
         if(shipLengths.size() > 0) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Ships left to place\n\n");
+            sb.append("\n\nShips left to place\n");
             for (int shipLen : shipLengths) {
                 sb.append("Ship of length -");
                 for (int i = 0; i < shipLen; i++) {

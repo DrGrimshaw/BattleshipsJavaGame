@@ -21,7 +21,7 @@ public class HumanPlayer implements Player {
     public void placeShipOnToPlayerBoard(int lengthOfShip) {
         while (true) {
             try {
-                System.out.println("Please enter the starting coordinates for this ship:");
+                System.out.println("Please enter the starting coordinates for this ship (length "+lengthOfShip+"):");
                 System.out.print(">>> ");
                 String coordinatesStr = keyboard.readLine();
                 Coordinates coordinates = new Coordinates(coordinatesStr);

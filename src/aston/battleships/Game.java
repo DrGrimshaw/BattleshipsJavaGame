@@ -8,11 +8,11 @@ public class Game {
     Player player1, player2, nextToPlay;
     List<Integer> shipLengths;
 
-    Game(Player newPlayer1, Player newPlayer2){
+    Game(Player newPlayer1, Player newPlayer2, List<Integer> shipLengths){
         player1 = newPlayer1;
         player2 =  newPlayer2;
         nextToPlay = player1;
-        shipLengths = Arrays.asList(5, 4, 3, 3, 2);
+        this.shipLengths = shipLengths;
     }
 
     public Player getNextToPlay(){
