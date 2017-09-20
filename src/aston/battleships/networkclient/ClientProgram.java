@@ -87,12 +87,32 @@ public class ClientProgram {
     }
 
     private Player handleStart(String command) {
+        String[] c = command.split(" ");
+        try {
+            int width = Integer.parseInt(c[1]);
+            int height = Integer.parseInt(c[2]);
+            int shipsRemaining = Integer.parseInt(c[3]);
+            return new HumanPlayer(width, height, shipsRemaining);
+        } catch(IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
+            System.err.println("Failed to parse the START command: " + command);
+            System.exit(1);
+            return null;
+        }
     }
 
     private void handleGameOver(String command) {
     }
 
     private void handleMoveResponse(String command) {
+        String[] c = command.split(" ");
+        try {
+            Coordinates coordinates = new Coordinates(c[1]);
+            CellState cellState = CellState.valueOf(c[2]);
+            player.updateEnemyBoard(coordinates, cellState);
+        } catch(Coordinates.MalformattedException | IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
+            System.err.println("Failed to parse the MOVE_RESPONSE command: " + command);
+            System.exit(1);
+        }
     }
 
     private void handleTakeAHit(String command) throws Player.QuitException {
