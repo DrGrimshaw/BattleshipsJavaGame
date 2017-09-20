@@ -12,14 +12,13 @@ import java.util.List;
 public class NetworkPlayer implements Player, View {
     public static final int PORT = 9090;
 
-    ServerSocket listener = null;
     Socket socket = null;
 
     private final BufferedReader in;
     private final PrintWriter out;
     private int shipsRemaining;
 
-    public NetworkPlayer(int width, int height, int newShipsRemaining) throws IOException {
+    public NetworkPlayer(ServerSocket listener, int width, int height, int newShipsRemaining) throws IOException {
         if(width <= 0 || height <= 0){
             throw new IllegalArgumentException("You cannot make a grid size of "
                     + width + " by " + height );
@@ -29,7 +28,6 @@ public class NetworkPlayer implements Player, View {
 
         shipsRemaining = newShipsRemaining;
 
-        listener = new ServerSocket(PORT);
         socket = listener.accept();
         InputStreamReader isr = new InputStreamReader(socket.getInputStream());
         in = new BufferedReader(isr);
@@ -109,14 +107,9 @@ public class NetworkPlayer implements Player, View {
     @Override
     public void announceGameOver(GameOverMessage message) {
         send("GAME_OVER " + message);
-        try {
-            if (socket != null) {
-                socket.close();
-            }
-            if(listener != null) {
-                listener.close();
-            }
-        } catch(IOException ignored) {}
+        if (socket != null) {
+            try { socket.close(); } catch (IOException ignored) {}
+        }
     }
 
     @Override

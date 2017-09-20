@@ -36,7 +36,7 @@ public class ClientProgram {
 
             // set up the game.
             String command = in.readLine();
-            player = handleStart(command);
+            handleStart(command);
 
             while (true) {
                 // keep asking the server what it wants us to do: i.e. wait for a command
@@ -54,7 +54,8 @@ public class ClientProgram {
                 } else if (command.startsWith("GAME_OVER")) {
                     handleGameOver(command);
                 } else {
-
+                    System.err.println("Invalid command: " + command);
+                    System.exit(1);
                 }
             }
         } catch(Player.ResignException e) {
@@ -82,17 +83,18 @@ public class ClientProgram {
         out.flush();
     }
 
-    private Player handleStart(String command) {
+    private void handleStart(String command) {
         String[] c = command.split(" ");
         try {
             int width = Integer.parseInt(c[1]);
             int height = Integer.parseInt(c[2]);
             int shipsRemaining = Integer.parseInt(c[3]);
-            return new HumanPlayer(width, height, shipsRemaining);
+            player = new HumanPlayer(width, height, shipsRemaining);
+            player.getView().welcomeUser();
+            player.getView().viewInstructions();
         } catch(IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             System.err.println("Failed to parse the START command: " + command);
             System.exit(1);
-            return null;
         }
     }
 
@@ -113,6 +115,7 @@ public class ClientProgram {
             Coordinates coordinates = new Coordinates(c[1]);
             CellState cellState = CellState.valueOf(c[2]);
             player.updateEnemyBoard(coordinates, cellState);
+            player.getView().viewResultOfMove(coordinates, cellState);
         } catch(Coordinates.MalformattedException | IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             System.err.println("Failed to parse the MOVE_RESPONSE command: " + command);
             System.exit(1);
@@ -125,6 +128,7 @@ public class ClientProgram {
             Coordinates coordinates = new Coordinates(parts[1]);
             CellState result = player.takeHit(coordinates);
             send(result.toString());
+            player.getView().viewResultOfEnemyMove(coordinates, result);
         } catch(Coordinates.MalformattedException e) {
             System.err.println("Error parsing TAKE_A_HIT command: " + command);
             System.exit(1);
@@ -132,12 +136,14 @@ public class ClientProgram {
     }
 
     private void handleChooseAMove(String command) throws Player.QuitException {
+        player.viewState();
         Coordinates move = player.chooseMove();
         send(move.toString());
     }
 
 
     private void handlePlaceShip(String command) {
+        player.viewState();
         try {
             String[] parts = command.split(" ");
             player.placeShipOnToPlayerBoard(Integer.valueOf(parts[1]));
