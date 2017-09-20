@@ -15,6 +15,7 @@ public interface View {
     public void welcomeUser();
     public void viewInstructions();
     public void announceGameOver(GameOverMessage message);
-    public void viewResultOfMove(CellState cellState);
+    public void viewResultOfMove(Coordinates coordinates, CellState cellState);
+    public void viewResultOfEnemyMove(Coordinates coordinates, CellState cellState);
     public void viewShipsLeftToPlace(List<Integer> shipLengths);
 }

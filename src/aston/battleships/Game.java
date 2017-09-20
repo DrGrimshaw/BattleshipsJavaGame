@@ -53,7 +53,8 @@ public class Game {
                 Coordinates move = nextToPlay.chooseMove();
                 CellState result = getOpponent().takeHit(move);
                 nextToPlay.updateEnemyBoard(move, result);
-                view.viewResultOfMove(result);
+                view.viewResultOfMove(move, result);
+                getOpponent().getView().viewResultOfEnemyMove(move, result);
 
                 if(getOpponent().hasLost()) {
                     view.announceGameOver(View.GameOverMessage.WON);

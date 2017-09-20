@@ -218,7 +218,7 @@ public class TextView implements View {
     }
 
     @Override
-    public void viewResultOfMove(CellState cellState) {
+    public void viewResultOfMove(Coordinates coordinates, CellState cellState) {
         //TODO: Different messages from a list for each state
         switch(cellState){
             case MISS:
@@ -233,6 +233,11 @@ public class TextView implements View {
             default:
                 throw new IllegalArgumentException("Move cannot result in " + cellState);
         }
+    }
+
+    @Override
+    public void viewResultOfEnemyMove(Coordinates coordinates, CellState cellState) {
+        // TODO
     }
 
     @Override

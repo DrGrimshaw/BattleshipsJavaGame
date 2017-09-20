@@ -15,7 +15,7 @@ public class Program {
             // player 1
             new HumanPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
             // player 2
-            new HumanPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
+            new RandomPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
             //
             Arrays.asList(SHIP_LENGTHS)
         ).play();
