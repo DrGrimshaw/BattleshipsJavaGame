@@ -237,7 +237,19 @@ public class TextView implements View {
 
     @Override
     public void viewResultOfEnemyMove(Coordinates coordinates, CellState cellState) {
-        // TODO
+        switch(cellState){
+            case MISS:
+                System.out.println("~ ENEMY FIRED ON " + coordinates + " AND MISSED ~\n");
+                break;
+            case SHIP_HIT:
+                System.out.println("~ ENEMY FIRED ON " + coordinates + " AND HIT YOUR BATTLESHIP ~\n");
+                break;
+            case SHIP_SUNK:
+                System.out.println("~ ENEMY FIRED ON " + coordinates + " AND SUNK YOUR BATTLESHIP ~\n");
+                break;
+            default:
+                throw new IllegalArgumentException("Move cannot result in " + cellState);
+        }
     }
 
     @Override
