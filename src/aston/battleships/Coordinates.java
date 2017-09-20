@@ -44,6 +44,13 @@ public class Coordinates {
     }
 
     @Override
+    public String toString() {
+        char x = (char) (this.x+'A');
+        int y = this.y+1;
+        return Character.toString(x) + y;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
