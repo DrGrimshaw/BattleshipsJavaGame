@@ -28,18 +28,20 @@ public class Game {
 
     }
 
-    private void placeShips(){
+    private void placeShips(Player player){
+        player.getView().viewShipsLeftToPlace(shipLengths);
         for(int shipLength : shipLengths) {
-            player1.placeShipOnToPlayerBoard(shipLength);
-        }
-        for(int shipLength : shipLengths) {
-            player2.placeShipOnToPlayerBoard(shipLength);
+            player.viewState();
+            player.placeShipOnToPlayerBoard(shipLength);
         }
     }
 
     public void play() {
         try {
-            placeShips();
+            //TODO: welcome and instructions
+
+            placeShips(player1);
+            placeShips(player2);
 
             while (true) {
                 View view = nextToPlay.getView();
