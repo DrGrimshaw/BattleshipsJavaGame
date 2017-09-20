@@ -104,4 +104,9 @@ public class HumanPlayer implements Player {
     public void updateEnemyBoard(Coordinates coordinates, CellState cellState) {
         enemyBoard.updateCellState(coordinates, cellState);
     }
+
+    @Override
+    public View getView() {
+        return new TextView();
+    }
 }

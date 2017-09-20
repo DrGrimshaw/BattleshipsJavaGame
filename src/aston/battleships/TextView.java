@@ -28,6 +28,54 @@ public class TextView implements View {
             "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n" +
             "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
 
+    private static final String PLAYER_WON_TEXT =
+            "                     ~ YOU WIN ~\n" +
+            "                                   .''.\n" +
+            "       .''.      .        *''*    :_\\/_:     .\n" +
+            "      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.\n" +
+            "  .''.: /\\ :    /)\\   ':'* /\\ *  : '..'.  -=:o:=-\n" +
+            " :_\\/_:'.:::.  | ' *''*    * '.\\'/.'_\\(/_'.':'.'\n" +
+            " : /\\ : :::::  =  *_\\/_*     -= o =- /)\\    '  *\n" +
+            "  '..'  ':::' === * /\\ *     .'/.\\'.  ' ._____\n" +
+            "      *        |   *..*         :       |.   |' .---\"|\n" +
+            "        *      |     _           .--'|  ||   | _|    |\n" +
+            "        *      |  .-'|       __  |   |  |    ||      |\n" +
+            "     .-----.   |  |' |  ||  |  | |   |  |    ||      |\n" +
+            " ___'       ' /\"\\ |  '-.\"\".    '-'   '-.'    '`      |____\n" +
+            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+            "                       ~-~-~-~-~-~-~-~-~-~   /|\n" +
+            "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n" +
+            "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n" +
+            "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n" +
+            "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
+
+    private static final String PLAYER_LOST_TEXT =
+            "        ~ YOU LOSE ~\n" +
+            "     _.-^^---....,,--\n" +
+            " _--                  --_\n" +
+            "<                        >)\n" +
+            "|                         |\n" +
+            " \\._                   _./\n" +
+            "    ```--. . , ; .--'''\n" +
+            "          | |   |\n" +
+            "       .-=||  | |=-.\n" +
+            "       `-=#$%&%$#=-'\n" +
+            "          | ;  :|\n" +
+            " _____.,-#%&$@%#&#~,._____ ";
+
+    private static final String PLAYER_RESIGNED_TEXT =
+            "~ YOU RESIGNED - ENEMY WINS ~\n" +
+            "     _.-^^---....,,--\n" +
+            " _--                  --_\n" +
+            "<                        >)\n" +
+            "|                         |\n" +
+            " \\._                   _./\n" +
+            "    ```--. . , ; .--'''\n" +
+            "          | |   |\n" +
+            "       .-=||  | |=-.\n" +
+            "       `-=#$%&%$#=-'\n" +
+            "          | ;  :|\n" +
+            " _____.,-#%&$@%#&#~,._____ ";
 
 
 
@@ -77,44 +125,12 @@ public class TextView implements View {
 
             for(int x = 0; x < enemyBoard.getWidth(); x++) {
                 CellState cellState = enemyBoard.getCellState(new Coordinates(x, y));
-                switch (cellState) {
-                    case NOTHING:
-                        sb.append(". ");
-                        break;
-                    case MISS:
-                        sb.append("M ");
-                        break;
-                    case SHIP_HIT:
-                        sb.append("H ");
-                        break;
-                    default:
-                        throw new IllegalStateException("Should not be able to see "
-                                + cellState + " on enemy board at x:" + x + " y:" + y);
-                }
+                sb.append(cellStateToString(cellState));
             }
             sb.append("|   ").append(String.format("%2d",rowNumber)).append(" | ");
             for(int x = 0; x < playerBoard.getWidth(); x++) {
                 CellState cellState = playerBoard.getCellState(new Coordinates(x, y));
-                switch(cellState) {
-                    case NOTHING:
-                        sb.append(". ");
-                        break;
-                    case MISS:
-                        sb.append("M ");
-                        break;
-                    case SHIP_HIT:
-                        sb.append("H ");
-                        break;
-                    case SHIP_NOT_HIT:
-                        sb.append("# ");
-                        break;
-                    case SHIP_SUNK:
-                        sb.append("S ");
-                        break;
-                    default:
-                        throw new IllegalStateException("Should not be able to see "
-                                + cellState + " on player board at x:" + x + " y:" + y);
-                }
+                sb.append(cellStateToString(cellState));
             }
             sb.append("|\n");
         }
@@ -130,9 +146,21 @@ public class TextView implements View {
         System.out.println(sb);
     }
 
-    // TODO:
     private String cellStateToString(CellState state) {
-        return null;
+        switch(state) {
+            case NOTHING:
+                return ". ";
+            case MISS:
+                return "M ";
+            case SHIP_HIT:
+                return "H ";
+            case SHIP_NOT_HIT:
+                return "# ";
+            case SHIP_SUNK:
+                return "S ";
+            default:
+                throw new IllegalStateException("Should not be able to see " + state + " on board");
+        }
     }
 
     private void appendHorizontalBorder(PlayerBoard playerBoard, EnemyBoard enemyBoard, StringBuilder sb) {
@@ -175,60 +203,13 @@ public class TextView implements View {
     public void announceGameOver(GameOverMessage message) {
         switch(message) {
             case WON:
-                System.out.println(
-                        "                     ~ YOU WIN ~\n" +
-                        "                                   .''.\n" +
-                        "       .''.      .        *''*    :_\\/_:     .\n" +
-                        "      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.\n" +
-                        "  .''.: /\\ :    /)\\   ':'* /\\ *  : '..'.  -=:o:=-\n" +
-                        " :_\\/_:'.:::.  | ' *''*    * '.\\'/.'_\\(/_'.':'.'\n" +
-                        " : /\\ : :::::  =  *_\\/_*     -= o =- /)\\    '  *\n" +
-                        "  '..'  ':::' === * /\\ *     .'/.\\'.  ' ._____\n" +
-                        "      *        |   *..*         :       |.   |' .---\"|\n" +
-                        "        *      |     _           .--'|  ||   | _|    |\n" +
-                        "        *      |  .-'|       __  |   |  |    ||      |\n" +
-                        "     .-----.   |  |' |  ||  |  | |   |  |    ||      |\n" +
-                        " ___'       ' /\"\\ |  '-.\"\".    '-'   '-.'    '`      |____\n" +
-                        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
-                        "                       ~-~-~-~-~-~-~-~-~-~   /|\n" +
-                        "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n" +
-                        "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n" +
-                        "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n" +
-                        "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~"
-                );
+                System.out.println(PLAYER_WON_TEXT);
                 break;
             case LOST:
-                System.out.println(
-                        "        ~ YOU LOSE ~\n" +
-                        "     _.-^^---....,,--\n" +
-                        " _--                  --_\n" +
-                        "<                        >)\n" +
-                        "|                         |\n" +
-                        " \\._                   _./\n" +
-                        "    ```--. . , ; .--'''\n" +
-                        "          | |   |\n" +
-                        "       .-=||  | |=-.\n" +
-                        "       `-=#$%&%$#=-'\n" +
-                        "          | ;  :|\n" +
-                        " _____.,-#%&$@%#&#~,._____ "
-                );
-
+                System.out.println(PLAYER_LOST_TEXT);
                 break;
             case RESIGNED:
-                System.out.println(
-                        "~ YOU RESIGNED - ENEMY WINS ~\n" +
-                        "     _.-^^---....,,--\n" +
-                        " _--                  --_\n" +
-                        "<                        >)\n" +
-                        "|                         |\n" +
-                        " \\._                   _./\n" +
-                        "    ```--. . , ; .--'''\n" +
-                        "          | |   |\n" +
-                        "       .-=||  | |=-.\n" +
-                        "       `-=#$%&%$#=-'\n" +
-                        "          | ;  :|\n" +
-                        " _____.,-#%&$@%#&#~,._____ "
-                );
+                System.out.println(PLAYER_RESIGNED_TEXT);
                 break;
             case ENEMY_RESIGNED:
                 System.out.println(ENEMY_RESIGNED_TEXT);
