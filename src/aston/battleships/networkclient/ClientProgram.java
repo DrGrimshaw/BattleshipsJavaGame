@@ -124,8 +124,11 @@ public class ClientProgram {
         }
     }
 
-    private void handleChooseAMove(String command) {
+    private void handleChooseAMove(String command) throws Player.QuitException {
+        Coordinates move = player.chooseMove();
+        send(move.toString());
     }
+
 
     private void handlePlaceShip(String command) {
         String[] parts = command.split(" ");
