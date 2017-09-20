@@ -16,6 +16,6 @@ public class HumanPlayerTest {
     public void testChooseMove() {
         try {
             player.chooseMove();
-        } catch(Player.ResignedException ignored) {}
+        } catch(Player.QuitException ignored) {}
     }
 }

@@ -1,7 +1,5 @@
 package aston.battleships;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Game {
@@ -55,6 +53,7 @@ public class Game {
                 nextToPlay.updateEnemyBoard(move, result);
                 view.viewResultOfMove(result);
 
+
                 if(getOpponent().hasLost()) {
                     view.announceGameOver(View.GameOverMessage.WON);
                     getOpponent().getView().announceGameOver(View.GameOverMessage.LOST);
@@ -63,7 +62,7 @@ public class Game {
 
                 nextToPlay = getOpponent();
             }
-        } catch(Player.ResignedException e) {
+        } catch(Player.QuitException e) {
             nextToPlay.getView().announceGameOver(View.GameOverMessage.RESIGNED);
             getOpponent().getView().announceGameOver(View.GameOverMessage.ENEMY_RESIGNED);
         }

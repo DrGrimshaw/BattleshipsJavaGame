@@ -54,14 +54,14 @@ public class HumanPlayer extends AbstractPlayer {
     }
 
     @Override
-    public Coordinates chooseMove() throws ResignedException {
+    public Coordinates chooseMove() throws QuitException {
         while (true) {
             try {
                 System.out.println("Please enter coordinates to fire at:");
                 System.out.print(">>> ");
                 String coordinatesStr = keyboard.readLine();
                 if(coordinatesStr.equalsIgnoreCase("resign")) {
-                    throw new ResignedException();
+                    throw new QuitException();
                 }
                 Coordinates coordinates = new Coordinates(coordinatesStr);
                 if(enemyBoard.hasGuessed(coordinates)) {
