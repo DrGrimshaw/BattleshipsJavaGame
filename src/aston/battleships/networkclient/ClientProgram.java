@@ -123,6 +123,7 @@ public class ClientProgram {
     }
 
     private void handlePlaceShip(String command) {
-
+        String[] parts = command.split(" ");
+        player.placeShipOnToPlayerBoard(Integer.valueOf(parts[1]));
     }
 }
