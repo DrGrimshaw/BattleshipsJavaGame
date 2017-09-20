@@ -14,8 +14,8 @@ import static junit.framework.TestCase.assertTrue;
  * Created by cooperwd on 18/09/2017.
  */
 public class PlayerBoardTest {
-    PlayerBoard playerBoard;
-    Ship ship;
+    private PlayerBoard playerBoard;
+    private Ship ship;
 
     @Before
     public void setUp() {

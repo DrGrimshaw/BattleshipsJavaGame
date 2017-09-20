@@ -31,7 +31,7 @@ public class TextView implements View {
 
 
 
-    public static String padCenter(String input, int newLength) {
+    private static String padCenter(String input, int newLength) {
         int totalSpaces = newLength - input.length();
 
         StringBuilder sb  = new StringBuilder();

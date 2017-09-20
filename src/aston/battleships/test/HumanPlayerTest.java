@@ -3,7 +3,7 @@ package aston.battleships.test;
 import aston.battleships.*;
 
 public class HumanPlayerTest {
-    HumanPlayer player = new HumanPlayer(7, 7, 3);
+    private HumanPlayer player = new HumanPlayer(7, 7, 3);
 
     public static void main(String[] args) {
         new HumanPlayerTest().testChooseMove();

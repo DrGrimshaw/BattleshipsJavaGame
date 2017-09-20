@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 
 public class EnemyBoardTest {
-    EnemyBoard board;
+    private EnemyBoard board;
 
     @Before
     public void setUp(){

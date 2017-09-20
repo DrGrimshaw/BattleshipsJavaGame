@@ -7,16 +7,14 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static aston.battleships.TextView.padCenter;
-
 /**
  * Created by cooperwd on 19/09/2017.
  */
 public class TextViewTest {
-    PlayerBoard playerBoard;
-    EnemyBoard enemyBoard;
-    Ship smallShip, mediumShip, largeShip;
-    TextView view;
+    private PlayerBoard playerBoard;
+    private EnemyBoard enemyBoard;
+    private Ship smallShip, mediumShip, largeShip;
+    private TextView view;
 
     @Before
     public void setup() throws PlayerBoard.ShipOverlapException {
@@ -69,7 +67,7 @@ public class TextViewTest {
 
     @Test
     public void testShipsLeftToPlace() {
-        List<Integer> ships = new ArrayList<Integer>();
+        List<Integer> ships = new ArrayList<>();
         ships.add(2);
         ships.add(3);
         ships.add(4);

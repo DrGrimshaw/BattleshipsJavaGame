@@ -1,13 +1,12 @@
 package aston.battleships.test;
 import static org.junit.Assert.*;
 import aston.battleships.*;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ShipTest {
     private Ship ship;
-    Coordinates coordinates;
+    private Coordinates coordinates;
 
     @Before
     public void setUp() {
