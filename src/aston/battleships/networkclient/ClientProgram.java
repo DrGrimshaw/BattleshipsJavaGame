@@ -128,7 +128,12 @@ public class ClientProgram {
     }
 
     private void handlePlaceShip(String command) {
-        String[] parts = command.split(" ");
-        player.placeShipOnToPlayerBoard(Integer.valueOf(parts[1]));
+        try {
+            String[] parts = command.split(" ");
+            player.placeShipOnToPlayerBoard(Integer.valueOf(parts[1]));
+        } catch(IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
+            System.err.println("Failed to parse the PLACE_SHIP command: " + command);
+            System.exit(1);
+        }
     }
 }
