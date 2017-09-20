@@ -6,7 +6,7 @@ public class HumanPlayerTest {
     private HumanPlayer player = new HumanPlayer(7, 7, 3);
 
     public static void main(String[] args) {
-        new HumanPlayerTest().testChooseMove();
+        new HumanPlayerTest().testPlaceShip();
     }
 
     public void testPlaceShip() {

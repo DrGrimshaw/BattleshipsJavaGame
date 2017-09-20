@@ -6,13 +6,14 @@ import java.io.InputStreamReader;
 
 public class HumanPlayer implements Player {
     private final BufferedReader keyboard;
-
     private final PlayerBoard playerBoard;
     private final EnemyBoard enemyBoard;
+    private final View view;
 
     public HumanPlayer(int newBoardWidth, int newBoardHeight, int newShipsRemaining) {
         playerBoard = new PlayerBoardImpl(newBoardWidth, newBoardHeight);
         enemyBoard = new EnemyBoardImpl(newBoardWidth, newBoardHeight, newShipsRemaining);
+        view = new TextView();
 
         InputStreamReader isr = new InputStreamReader(System.in);
         keyboard = new BufferedReader(isr);
@@ -23,14 +24,15 @@ public class HumanPlayer implements Player {
         while (true) {
             try {
                 System.out.println("Please enter the starting coordinates for this ship:");
-                // >>>
+                System.out.print(">>> ");
                 String coordinatesStr = keyboard.readLine();
                 Coordinates coordinates = new Coordinates(coordinatesStr);
                 coordinates.checkBounds(playerBoard.getWidth(), playerBoard.getHeight());
 
-                System.out.println("Please enter an orientation (right or down) for this ship:");
                 Ship ship = null;
                 while(ship == null) {
+                    System.out.println("Please enter an orientation (right or down) for this ship:");
+                    System.out.print(">>> ");
                     String orientationStr = keyboard.readLine();
                     if (orientationStr.equalsIgnoreCase("right")) {
                         ship = new ShipImpl(lengthOfShip, coordinates, Orientation.RIGHT);
@@ -43,6 +45,7 @@ public class HumanPlayer implements Player {
 
                 playerBoard.placeShip(ship);
                 break;
+
             } catch(Coordinates.MalformattedException e) {
                 System.out.println("Invalid coordinates entered: " + e.getMessage());
             } catch(IndexOutOfBoundsException e) {
@@ -60,19 +63,23 @@ public class HumanPlayer implements Player {
         while (true) {
             try {
                 System.out.println("Please enter coordinates to fire at:");
+                System.out.print(">>> ");
                 String coordinatesStr = keyboard.readLine();
                 if(coordinatesStr.equalsIgnoreCase("resign")) {
                     throw new ResignedException();
                 }
                 Coordinates coordinates = new Coordinates(coordinatesStr);
-                coordinates.checkBounds(enemyBoard.getWidth(), enemyBoard.getHeight());
-                // TODO: check if already guessed
+                if(enemyBoard.hasGuessed(coordinates)) {
+                    System.out.println("Coordinates already guessed.");
+                    continue;
+                } else {
+                    return coordinates;
+                }
 
-                return coordinates;
             } catch(Coordinates.MalformattedException e) {
                 System.out.println("Invalid coordinates entered.");
             } catch(IndexOutOfBoundsException e) {
-                System.out.println("Coordinates out of bounds");
+                System.out.println("Coordinates out of bounds.");
             } catch(IOException e) {
                 throw new IllegalStateException("IOException was thrown, with message: " + e.getMessage());
             }
@@ -96,12 +103,16 @@ public class HumanPlayer implements Player {
 
     @Override
     public void viewState() {
-        View view = new TextView();
         view.viewBoards(playerBoard, enemyBoard);
     }
 
     @Override
     public void updateEnemyBoard(Coordinates coordinates, CellState cellState) {
         enemyBoard.updateCellState(coordinates, cellState);
+    }
+
+    @Override
+    public View getView() {
+        return view;
     }
 }
