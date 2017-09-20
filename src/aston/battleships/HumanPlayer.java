@@ -4,14 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class HumanPlayer implements Player {
+public class HumanPlayer extends AbstractPlayer {
     private final BufferedReader keyboard;
-    private final PlayerBoard playerBoard;
-    private final EnemyBoard enemyBoard;
 
     public HumanPlayer(int newBoardWidth, int newBoardHeight, int newShipsRemaining) {
-        playerBoard = new PlayerBoardImpl(newBoardWidth, newBoardHeight);
-        enemyBoard = new EnemyBoardImpl(newBoardWidth, newBoardHeight, newShipsRemaining);
+        super(newBoardWidth, newBoardHeight, newShipsRemaining);
 
         InputStreamReader isr = new InputStreamReader(System.in);
         keyboard = new BufferedReader(isr);
@@ -82,31 +79,6 @@ public class HumanPlayer implements Player {
                 throw new IllegalStateException("IOException was thrown, with message: " + e.getMessage());
             }
         }
-    }
-
-    @Override
-    public CellState takeHit(Coordinates coordinates) {
-        return playerBoard.takeAHit(coordinates);
-    }
-
-    @Override
-    public boolean hasLost() {
-        return playerBoard.areAllShipsSunk();
-    }
-
-    @Override
-    public boolean hasAlreadyGuessed(Coordinates coordinates) {
-        return playerBoard.hasGuessedAlready(coordinates);
-    }
-
-    @Override
-    public void viewState() {
-        getView().viewBoards(playerBoard, enemyBoard);
-    }
-
-    @Override
-    public void updateEnemyBoard(Coordinates coordinates, CellState cellState) {
-        enemyBoard.updateCellState(coordinates, cellState);
     }
 
     @Override
