@@ -8,12 +8,10 @@ public class HumanPlayer implements Player {
     private final BufferedReader keyboard;
     private final PlayerBoard playerBoard;
     private final EnemyBoard enemyBoard;
-    private final View view;
 
     public HumanPlayer(int newBoardWidth, int newBoardHeight, int newShipsRemaining) {
         playerBoard = new PlayerBoardImpl(newBoardWidth, newBoardHeight);
         enemyBoard = new EnemyBoardImpl(newBoardWidth, newBoardHeight, newShipsRemaining);
-        view = new TextView();
 
         InputStreamReader isr = new InputStreamReader(System.in);
         keyboard = new BufferedReader(isr);
@@ -103,7 +101,7 @@ public class HumanPlayer implements Player {
 
     @Override
     public void viewState() {
-        view.viewBoards(playerBoard, enemyBoard);
+        getView().viewBoards(playerBoard, enemyBoard);
     }
 
     @Override
@@ -113,6 +111,6 @@ public class HumanPlayer implements Player {
 
     @Override
     public View getView() {
-        return view;
+        return new TextView();
     }
 }
