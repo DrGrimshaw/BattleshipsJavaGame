@@ -24,17 +24,24 @@ public class GUIView extends Frame implements View {
     private static final int ACTION_BOX_AND_TITLE_HEIGHT = CELL_SIZE*2;
     private static final int INSTRUCTIONS_HEIGHT = 200;
 
+    private final int boardWidth;
+    private final int boardHeight;
+
+
     public GUIView(int boardWidth, int boardHeight) {
         state = WindowState.NOT_WAITING;
         startingPosition = null;
         orientation = null;
         move = null;
 
-        this.setSize((PADDING * 3) + (CELL_SIZE * boardWidth) * 2 + CELL_SIZE * 2,PADDING * 3 + CELL_SIZE * boardHeight + ACTION_BOX_AND_TITLE_HEIGHT * 2 + INSTRUCTIONS_HEIGHT);
+        this.setSize((PADDING * 3) + (CELL_SIZE * boardWidth) * 2 + CELL_SIZE * 2,PADDING * 3 + CELL_SIZE * boardHeight + ACTION_BOX_AND_TITLE_HEIGHT * 2 + INSTRUCTIONS_HEIGHT + CELL_SIZE);
         this.setVisible(true);
 
         addMouseListener(new MyMouselistener());
         addWindowListener(new MyWindowAdapter());
+
+        this.boardHeight = boardHeight;
+        this.boardWidth = boardWidth;
     }
 
     void waitForShipPlacement() {
@@ -90,9 +97,32 @@ public class GUIView extends Frame implements View {
 
     }
 
+    private boolean withinPlayerBoard(int x, int y) {
+        x -= PADDING + CELL_SIZE;
+        y -= PADDING + ACTION_BOX_AND_TITLE_HEIGHT + CELL_SIZE;
+        return x >= 0 && x < CELL_SIZE * boardWidth && y >= 0 && y < CELL_SIZE * boardHeight;
+    }
+
+    private boolean withinEnemyBoard(int x, int y){
+        x -= PADDING*2 + CELL_SIZE*2 + CELL_SIZE*boardWidth;
+        y -= PADDING + ACTION_BOX_AND_TITLE_HEIGHT + CELL_SIZE;
+        return x >= 0 && x < CELL_SIZE * boardWidth && y >= 0 && y < CELL_SIZE * boardHeight;
+    }
+
     //TODO:
     private Coordinates pixelToCoordinates(int x, int y) {
-        return null;
+        if(withinPlayerBoard(x,y)) {
+            x -= PADDING + CELL_SIZE;
+            for(int i = 1; i <= boardWidth; i++) {
+                if(x < 0) {
+
+                }
+            }
+        } else if(withinEnemyBoard(x,y)) {
+
+        } else {
+            return null;
+        }
     }
 
     //TODO
