@@ -8,11 +8,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import javax.swing.*;
 
 /**
  * Created by cooperwd on 21/09/2017.
  */
 public class GUIView extends Frame implements View {
+    static final String instructions =
+            "- Before the game starts you will be asked to place your battleships\n" +
+            "- You can click on a square on the board to place a ship\n" +
+            "- When the game starts you can select a position on the enemy board to fire on\n" +
+            "- You cannot click to fire on the same place twice\n" +
+            "- The game is only over when you or your enemy have no battleships left\n" +
+            "- You can also resign from the game by closing the window\n" +
+            "~ GOOD LUCK PLAYER ~";
+
     WindowState state;
 
     Coordinates startingPosition;
@@ -42,7 +52,17 @@ public class GUIView extends Frame implements View {
 
         this.boardHeight = boardHeight;
         this.boardWidth = boardWidth;
-    }
+
+
+        // TODO:
+        Graphics g = getGraphics();
+        g.drawString(" BATTLE SHIPS ", boardWidth, boardHeight);
+        FontMetrics fm = g.getFontMetrics();
+        int x = (boardWidth - fm.stringWidth(" BATTLE SHIPS")) / 2;
+        int y = (fm.getAscent() + (boardHeight - (fm.getAscent() + fm.getDescent())) / 2);
+        g.drawString(" BATTLE SHIPS", x, y);
+        }
+
 
     void waitForShipPlacement() {
         state = WindowState.WAITING_FOR_STARTING_POSITION;
@@ -67,14 +87,20 @@ public class GUIView extends Frame implements View {
         }
     }
 
-    @Override
-    public void welcomeUser() {
+    private void writeToAction() {
+
 
     }
 
     @Override
-    public void viewInstructions() {
+    public void welcomeUser() {
+        JOptionPane.showMessageDialog(null, "WELCOME TO BATTLESHIP", "BATTLESHIPS GAME", JOptionPane.INFORMATION_MESSAGE);
+    }
 
+    @Override
+    public void viewInstructions() {
+        Graphics g = getGraphics();
+        g.drawString(instructions, PADDING, PADDING * 2 + ACTION_BOX_AND_TITLE_HEIGHT );
     }
 
     @Override
@@ -111,17 +137,20 @@ public class GUIView extends Frame implements View {
 
     //TODO:
     private Coordinates pixelToCoordinates(int x, int y) {
+
         if(withinPlayerBoard(x,y)) {
-            x -= PADDING + CELL_SIZE;
-            for(int i = 1; i <= boardWidth; i++) {
-                if(x < 0) {
+            x = (x - PADDING - CELL_SIZE) / CELL_SIZE;
+            y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
 
-                }
-            }
+            return new Coordinates(x, y);
         } else if(withinEnemyBoard(x,y)) {
+            x = (x - PADDING*2 - CELL_SIZE*2 - CELL_SIZE*boardWidth) / CELL_SIZE;
+            y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
 
+            return new Coordinates(x, y);
         } else {
             return null;
+
         }
     }
 
