@@ -55,6 +55,7 @@ public class ClientProgram {
                     handleMoveResponse(command);
                 } else if (command.startsWith("GAME_OVER")) {
                     handleGameOver(command);
+                    break;
                 } else {
                     System.err.println("Invalid command: " + command);
                     System.exit(1);
