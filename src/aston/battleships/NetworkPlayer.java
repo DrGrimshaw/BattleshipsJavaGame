@@ -47,7 +47,11 @@ public class NetworkPlayer implements Player, View {
 
     private String receive() throws QuitException {
         try {
-            return in.readLine();
+            String command = in.readLine();
+            if(command == null) {
+                throw new QuitException();
+            }
+            return command;
         } catch(IOException e) {
             System.err.println("The client has unexpectedly disconnected");
             throw new QuitException();
