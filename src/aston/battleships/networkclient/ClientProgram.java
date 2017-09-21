@@ -152,7 +152,7 @@ public class ClientProgram {
     }
 
 
-    private void handlePlaceShip(String command) {
+    private void handlePlaceShip(String command) throws Player.ResignException {
         player.viewState();
         try {
             String[] parts = command.split(" ");

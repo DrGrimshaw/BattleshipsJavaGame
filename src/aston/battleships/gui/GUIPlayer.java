@@ -14,9 +14,11 @@ public class GUIPlayer extends AbstractPlayer {
     }
 
     @Override
-    public void placeShipOnToPlayerBoard(int lengthOfShip) {
+    public void placeShipOnToPlayerBoard(int lengthOfShip) throws ResignException {
         try {
-            view.waitForShipPlacement();
+            // TODO: keep asking until we get a valid move
+            view.waitForShipStartPosition();
+            // TODO: wait for orientation
             playerBoard.placeShip(new ShipImpl(lengthOfShip, view.startingPosition, view.orientation));
         } catch(PlayerBoard.ShipOverlapException e) {
 
@@ -25,6 +27,11 @@ public class GUIPlayer extends AbstractPlayer {
 
     @Override
     public Coordinates chooseMove() throws QuitException {
+        if(view.isClosed) {
+            throw new ResignException();
+        }
+
+        // TODO: keep asking until we get a valid move
         view.waitForMove();
         return view.move;
     }

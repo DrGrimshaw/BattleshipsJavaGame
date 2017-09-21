@@ -26,7 +26,7 @@ public class Game {
 
     }
 
-    private void placeShips(Player player){
+    private void placeShips(Player player) throws Player.ResignException {
         player.getView().viewShipsLeftToPlace(shipLengths);
         for(int shipLength : shipLengths) {
             player.viewState();

@@ -1,5 +1,7 @@
 package aston.battleships;
 
+import aston.battleships.gui.GUIPlayer;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Arrays;
@@ -16,7 +18,7 @@ public class Program {
         //ServerSocket listener = new ServerSocket(NetworkPlayer.PORT);
         new Game(
             // player 1
-            new HumanPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
+            new GUIPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
             // player 2
             new CleverAI(WIDTH, HEIGHT, SHIP_LENGTHS.length),
             //
