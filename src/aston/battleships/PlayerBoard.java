@@ -14,5 +14,5 @@ public interface PlayerBoard {
     public int getNumberOfShipsRemaining();
     public List<Ship> getShips();
     public boolean areAllShipsSunk();
-    public CellState takeAHit(Coordinates coordinates);
+    public CellState takeHit(Coordinates coordinates);
 }

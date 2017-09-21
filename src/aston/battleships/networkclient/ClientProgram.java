@@ -35,12 +35,12 @@ public class ClientProgram {
             out = new PrintWriter(socket.getOutputStream());
 
             // set up the game.
-            String command = in.readLine();
+            String command = receive();
             handleStart(command);
 
             while (true) {
                 // keep asking the server what it wants us to do: i.e. wait for a command
-                command = in.readLine();
+                command = receive();
                 // dispatch the command
 
                 if(command.trim().isEmpty()) {
@@ -49,7 +49,7 @@ public class ClientProgram {
                     handlePlaceShip(command);
                 } else if (command.startsWith("CHOOSE_A_MOVE")) {
                     handleChooseAMove(command);
-                } else if (command.startsWith("TAKE_A_HIT_AT")) {
+                } else if (command.startsWith("TAKE_HIT_AT")) {
                     handleTakeAHit(command);
                 } else if (command.startsWith("MOVE_RESPONSE")) {
                     handleMoveResponse(command);
@@ -83,6 +83,13 @@ public class ClientProgram {
     private void sendf(String data, Object... args) {
         out.printf(data + "\r\n", args);
         out.flush();
+    }
+    private String receive() throws IOException {
+        String command = in.readLine();
+        if(command == null) {
+            throw new IOException();
+        }
+        return command;
     }
 
     private void handleStart(String command) {

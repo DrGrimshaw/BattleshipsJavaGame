@@ -98,29 +98,29 @@ public class PlayerBoardTest {
 
     @Test
     public void testGetCellStateMiss() {
-        playerBoard.takeAHit(new Coordinates(0,0));
+        playerBoard.takeHit(new Coordinates(0,0));
         assertEquals(playerBoard.getCellState(new Coordinates(0,0)),CellState.MISS);
     }
 
     @Test
     public void testGetCellStateHit() throws PlayerBoard.ShipOverlapException {
         playerBoard.placeShip(ship);
-        playerBoard.takeAHit(new Coordinates(0,0));
+        playerBoard.takeHit(new Coordinates(0,0));
         assertEquals(playerBoard.getCellState(new Coordinates(0,0)),CellState.SHIP_HIT);
     }
 
     @Test
     public void testGetCellStateSunk() throws PlayerBoard.ShipOverlapException {
         playerBoard.placeShip(ship);
-        playerBoard.takeAHit(new Coordinates(0,0));
-        playerBoard.takeAHit(new Coordinates(1,0));
-        playerBoard.takeAHit(new Coordinates(2,0));
+        playerBoard.takeHit(new Coordinates(0,0));
+        playerBoard.takeHit(new Coordinates(1,0));
+        playerBoard.takeHit(new Coordinates(2,0));
         assertEquals(playerBoard.getCellState(new Coordinates(2,0)),CellState.SHIP_SUNK);
     }
 
     @Test
     public void testHasGuessedAlready() {
-        playerBoard.takeAHit(new Coordinates(0,0));
+        playerBoard.takeHit(new Coordinates(0,0));
         assertTrue(playerBoard.hasGuessedAlready(new Coordinates(0,0)));
     }
 
@@ -158,9 +158,9 @@ public class PlayerBoardTest {
     @Test
     public void testAllShipsAreSunk() throws PlayerBoard.ShipOverlapException {
         playerBoard.placeShip(ship);
-        playerBoard.takeAHit(new Coordinates(0,0));
-        playerBoard.takeAHit(new Coordinates(1,0));
-        playerBoard.takeAHit(new Coordinates(2,0));
+        playerBoard.takeHit(new Coordinates(0,0));
+        playerBoard.takeHit(new Coordinates(1,0));
+        playerBoard.takeHit(new Coordinates(2,0));
         assertTrue(playerBoard.areAllShipsSunk());
     }
 

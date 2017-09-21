@@ -14,7 +14,7 @@ public abstract class AbstractPlayer implements Player {
 
     @Override
     public CellState takeHit(Coordinates coordinates) {
-        return playerBoard.takeAHit(coordinates);
+        return playerBoard.takeHit(coordinates);
     }
 
     @Override

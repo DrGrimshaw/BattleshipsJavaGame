@@ -114,7 +114,7 @@ public class PlayerBoardImpl implements PlayerBoard {
     }
 
     @Override
-    public CellState takeAHit(Coordinates coordinates) {
+    public CellState takeHit(Coordinates coordinates) {
         coordinates.checkBounds(width, height);
         // check they haven't already hit here
         if(hasGuessedAlready(coordinates) ){

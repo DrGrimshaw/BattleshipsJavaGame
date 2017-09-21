@@ -33,7 +33,7 @@ public class NetworkPlayer implements Player, View {
         in = new BufferedReader(isr);
         out = new PrintWriter(socket.getOutputStream());
 
-        sendf("START %d %d %d\r\n", width, height, newShipsRemaining);
+        sendf("START %d %d %d", width, height, newShipsRemaining);
     }
 
     private void send(String data) {
@@ -119,7 +119,7 @@ public class NetworkPlayer implements Player, View {
 
     @Override
     public void updateEnemyBoard(Coordinates coordinates, CellState cellState) {
-        sendf("MOVE_RESPONSE %s %s\n", coordinates, cellState);
+        sendf("MOVE_RESPONSE %s %s", coordinates, cellState);
     }
 
     @Override

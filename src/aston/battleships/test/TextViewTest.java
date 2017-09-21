@@ -30,10 +30,10 @@ public class TextViewTest {
         playerBoard.placeShip(mediumShip);
         playerBoard.placeShip(largeShip);
         // Make a hit on 2 ships
-        playerBoard.takeAHit(new Coordinates(0,1));
-        playerBoard.takeAHit(new Coordinates(0,0));
-        playerBoard.takeAHit(new Coordinates(1,6));
-        playerBoard.takeAHit(new Coordinates(5,5));
+        playerBoard.takeHit(new Coordinates(0,1));
+        playerBoard.takeHit(new Coordinates(0,0));
+        playerBoard.takeHit(new Coordinates(1,6));
+        playerBoard.takeHit(new Coordinates(5,5));
         // Try to hit enemy
         enemyBoard.updateCellState(new Coordinates(0,3), CellState.MISS);
         enemyBoard.updateCellState(new Coordinates(1,4), CellState.MISS);
