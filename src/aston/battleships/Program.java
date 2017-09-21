@@ -13,12 +13,12 @@ public class Program {
     public static final Integer[] SHIP_LENGTHS = { 5, 4, 3, 3, 2 };
 
     public static void main(String[] args) throws IOException {
-        ServerSocket listener = new ServerSocket(NetworkPlayer.PORT);
+        //ServerSocket listener = new ServerSocket(NetworkPlayer.PORT);
         new Game(
             // player 1
-            new NetworkPlayer(listener, WIDTH, HEIGHT, SHIP_LENGTHS.length),
+            new HumanPlayer(WIDTH, HEIGHT, SHIP_LENGTHS.length),
             // player 2
-            new NetworkPlayer(listener, WIDTH, HEIGHT, SHIP_LENGTHS.length),
+            new CleverAI(WIDTH, HEIGHT, SHIP_LENGTHS.length),
             //
             Arrays.asList(SHIP_LENGTHS)
         ).play();

@@ -125,14 +125,16 @@ public class GUIView extends Frame implements View {
         }
     }
 
-    //TODO
-    private int coordinatesToX(Coordinates coordinates) {
-        return 0;
+    private int coordinatesToXPlayerBoard(Coordinates coordinates) {
+        return PADDING + CELL_SIZE + (coordinates.x*CELL_SIZE);
     }
 
-    //TODO
+    private int coordinatesToXEnemyBoard(Coordinates coordinates) {
+        return (PADDING*2) + (CELL_SIZE*2) + (CELL_SIZE*boardWidth) + (coordinates.x*CELL_SIZE);
+    }
+
     private int coordinatesToY(Coordinates coordinates) {
-        return 0;
+        return PADDING + (CELL_SIZE*3) + (coordinates.y*CELL_SIZE);
     }
 
     public class MyMouselistener extends MouseAdapter {
