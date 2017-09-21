@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import javax.swing.*;
 
 /**
  * Created by cooperwd on 21/09/2017.
@@ -69,7 +70,7 @@ public class GUIView extends Frame implements View {
 
     @Override
     public void welcomeUser() {
-
+        JOptionPane.showMessageDialog(null, "WELCOME TO BATTLESHIP", "BATTLESHIPS GAME", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
@@ -111,17 +112,20 @@ public class GUIView extends Frame implements View {
 
     //TODO:
     private Coordinates pixelToCoordinates(int x, int y) {
+
         if(withinPlayerBoard(x,y)) {
-            x -= PADDING + CELL_SIZE;
-            for(int i = 1; i <= boardWidth; i++) {
-                if(x < 0) {
+            x = (x - PADDING - CELL_SIZE) / CELL_SIZE;
+            y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
 
-                }
-            }
+            return new Coordinates(x, y);
         } else if(withinEnemyBoard(x,y)) {
+            x = (x - PADDING*2 - CELL_SIZE*2 - CELL_SIZE*boardWidth) / CELL_SIZE;
+            y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
 
+            return new Coordinates(x, y);
         } else {
             return null;
+
         }
     }
 
