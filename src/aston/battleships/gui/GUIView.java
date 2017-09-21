@@ -103,7 +103,15 @@ public class GUIView extends Frame implements View {
     }
 
     private void writeToAction(String action) {
-
+        String s = action;
+        int x = PADDING * 2 + CELL_SIZE * 3
+                + CELL_SIZE * HEIGHT;
+        int y = PADDING + CELL_SIZE;
+    public void paint(Graphics g) {
+        g.drawRect (PADDING * 2 + CELL_SIZE * 3
+                + CELL_SIZE * HEIGHT, PADDING + CELL_SIZE, 300, 20);
+        g.drawString(action, PADDING * 2 + CELL_SIZE * 3
+                + CELL_SIZE * HEIGHT, PADDING + CELL_SIZE);
     }
 
     // x and y are in pixel space
