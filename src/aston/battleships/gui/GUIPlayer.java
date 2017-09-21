@@ -1,9 +1,6 @@
 package aston.battleships.gui;
 
-import aston.battleships.AbstractPlayer;
-import aston.battleships.Coordinates;
-import aston.battleships.ShipImpl;
-import aston.battleships.View;
+import aston.battleships.*;
 
 /**
  * Created by cooperwd on 21/09/2017.
@@ -21,14 +18,15 @@ public class GUIPlayer extends AbstractPlayer {
         try {
             view.waitForShipPlacement();
             playerBoard.placeShip(new ShipImpl(lengthOfShip, view.startingPosition, view.orientation));
-        } catch() {
+        } catch(PlayerBoard.ShipOverlapException e) {
 
         }
     }
 
     @Override
     public Coordinates chooseMove() throws QuitException {
-        return null;
+        view.waitForMove();
+        return view.move;
     }
 
     @Override
