@@ -2,17 +2,15 @@ package aston.battleships.gui;
 
 import aston.battleships.*;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.List;
 
 /**
  * Created by cooperwd on 21/09/2017.
  */
-public class GUIView extends Frame implements View {
+public class GUIView extends JFrame implements View {
     private static final String INSTRUCTIONS =
             "- Before the game starts you will be asked to place your battleships\n" +
             "- You can click on a square on the board to place a ship\n" +
@@ -37,6 +35,8 @@ public class GUIView extends Frame implements View {
     private final int boardWidth;
     private final int boardHeight;
 
+    private final Panel panel;
+
 
     public GUIView(int boardWidth, int boardHeight) {
         state = WindowState.NOT_WAITING;
@@ -50,6 +50,7 @@ public class GUIView extends Frame implements View {
             PADDING * 3 + CELL_SIZE * boardHeight + ACTION_BOX_AND_TITLE_HEIGHT * 2 + INSTRUCTIONS_HEIGHT + CELL_SIZE
         );
         this.setVisible(true);
+        this.setResizable(false);
 
         addMouseListener(new MyMouseListener());
         addWindowListener(new MyWindowAdapter());
@@ -57,13 +58,8 @@ public class GUIView extends Frame implements View {
         this.boardHeight = boardHeight;
         this.boardWidth = boardWidth;
 
-        // TODO:
-        Graphics g = getGraphics();
-        g.drawString(" BATTLE SHIPS ", boardWidth, boardHeight);
-        FontMetrics fm = g.getFontMetrics();
-        int x = (boardWidth - fm.stringWidth(" BATTLE SHIPS")) / 2;
-        int y = (fm.getAscent() + (boardHeight - (fm.getAscent() + fm.getDescent())) / 2);
-        g.drawString(" BATTLE SHIPS", x, y);
+        panel = new Panel();
+        this.setContentPane(panel);
     }
 
     private void sleep() throws Player.ResignException {
@@ -121,13 +117,29 @@ public class GUIView extends Frame implements View {
 
     @Override
     public void welcomeUser() {
+        Graphics g = panel.getGraphics();
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        g.drawString("BATTLE SHIPS", PADDING, 40);
+
         writeToAction("WELCOME TO BATTLESHIPS");
     }
 
     @Override
     public void viewInstructions() {
-        Graphics g = getGraphics();
-        g.drawString(INSTRUCTIONS, PADDING, PADDING * 2 + ACTION_BOX_AND_TITLE_HEIGHT );//TODO: get correct y
+        Graphics g = panel.getGraphics();
+        g.setColor(Color.BLACK);
+        String[] instructionsArray = INSTRUCTIONS.split("\n");
+        int sentenceHeight = 20;
+        int sentenceY = 0;
+        for(String instruction : instructionsArray) {
+            g.drawString(
+                instruction,
+                PADDING,
+                PADDING * 2 + CELL_SIZE * boardHeight + ACTION_BOX_AND_TITLE_HEIGHT * 2 + CELL_SIZE + sentenceY
+            );
+            sentenceY += sentenceHeight;
+        }
     }
 
     @Override
@@ -203,20 +215,22 @@ public class GUIView extends Frame implements View {
     }
 
     //TODO: pixel to player coordinates and pixel to enemy coordinates
-    private Coordinates pixelToCoordinates(int x, int y) {
-        if(withinPlayerBoard(x,y)) {
+    private Coordinates pixelToCoordinatesPlayer(int x, int y) {
+        if (withinPlayerBoard(x, y)) {
             x = (x - PADDING - CELL_SIZE) / CELL_SIZE;
             y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
-
-            return new Coordinates(x, y);
-        } else if(withinEnemyBoard(x,y)) {
-            x = (x - PADDING*2 - CELL_SIZE*2 - CELL_SIZE*boardWidth) / CELL_SIZE;
-            y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
-
             return new Coordinates(x, y);
         } else {
             return null;
-
+        }
+    }
+    private Coordinates pixelToCoordinatesEnemy(int x, int y) {
+        if(withinEnemyBoard(x,y)) {
+            x = (x - PADDING*2 - CELL_SIZE*2 - CELL_SIZE*boardWidth) / CELL_SIZE;
+            y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
+            return new Coordinates(x, y);
+        } else {
+            return null;
         }
     }
 
@@ -238,13 +252,13 @@ public class GUIView extends Frame implements View {
                 case NOT_WAITING:
                     break;
                 case WAITING_FOR_STARTING_POSITION:
-                    startingPosition = pixelToCoordinates(e.getX(),e.getY());
+                    startingPosition = pixelToCoordinatesPlayer(e.getX(),e.getY());
                     break;
                 case WAITING_FOR_ORIENTATION:
                     //TODO BUTTON SELECT
                     break;
                 case WAITING_FOR_MOVE:
-                    move = pixelToCoordinates(e.getX(),e.getY());
+                    move = pixelToCoordinatesEnemy(e.getX(),e.getY());
                     break;
             }
             state = WindowState.NOT_WAITING;
