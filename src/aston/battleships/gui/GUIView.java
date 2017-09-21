@@ -207,20 +207,22 @@ public class GUIView extends JFrame implements View {
     }
 
     //TODO: pixel to player coordinates and pixel to enemy coordinates
-    private Coordinates pixelToCoordinates(int x, int y) {
-        if(withinPlayerBoard(x,y)) {
+    private Coordinates pixelToCoordinatesPlayer(int x, int y) {
+        if (withinPlayerBoard(x, y)) {
             x = (x - PADDING - CELL_SIZE) / CELL_SIZE;
             y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
-
-            return new Coordinates(x, y);
-        } else if(withinEnemyBoard(x,y)) {
-            x = (x - PADDING*2 - CELL_SIZE*2 - CELL_SIZE*boardWidth) / CELL_SIZE;
-            y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
-
             return new Coordinates(x, y);
         } else {
             return null;
-
+        }
+    }
+    private Coordinates pixelToCoordinatesEnemy(int x, int y) {
+        if(withinEnemyBoard(x,y)) {
+            x = (x - PADDING*2 - CELL_SIZE*2 - CELL_SIZE*boardWidth) / CELL_SIZE;
+            y = (y - PADDING - ACTION_BOX_AND_TITLE_HEIGHT - CELL_SIZE) / CELL_SIZE;
+            return new Coordinates(x, y);
+        } else {
+            return null;
         }
     }
 
@@ -242,13 +244,13 @@ public class GUIView extends JFrame implements View {
                 case NOT_WAITING:
                     break;
                 case WAITING_FOR_STARTING_POSITION:
-                    startingPosition = pixelToCoordinates(e.getX(),e.getY());
+                    startingPosition = pixelToCoordinatesPlayer(e.getX(),e.getY());
                     break;
                 case WAITING_FOR_ORIENTATION:
                     //TODO BUTTON SELECT
                     break;
                 case WAITING_FOR_MOVE:
-                    move = pixelToCoordinates(e.getX(),e.getY());
+                    move = pixelToCoordinatesEnemy(e.getX(),e.getY());
                     break;
             }
             state = WindowState.NOT_WAITING;
