@@ -14,6 +14,15 @@ import javax.swing.*;
  * Created by cooperwd on 21/09/2017.
  */
 public class GUIView extends Frame implements View {
+    static final String instructions =
+            "- Before the game starts you will be asked to place your battleships\n" +
+            "- You can click on a square on the board to place a ship\n" +
+            "- When the game starts you can select a position on the enemy board to fire on\n" +
+            "- You cannot click to fire on the same place twice\n" +
+            "- The game is only over when you or your enemy have no battleships left\n" +
+            "- You can also resign from the game by closing the window\n" +
+            "~ GOOD LUCK PLAYER ~";
+
     WindowState state;
 
     Coordinates startingPosition;
@@ -43,7 +52,17 @@ public class GUIView extends Frame implements View {
 
         this.boardHeight = boardHeight;
         this.boardWidth = boardWidth;
-    }
+
+
+        // TODO:
+        Graphics g = getGraphics();
+        g.drawString(" BATTLE SHIPS ", boardWidth, boardHeight);
+        FontMetrics fm = g.getFontMetrics();
+        int x = (boardWidth - fm.stringWidth(" BATTLE SHIPS")) / 2;
+        int y = (fm.getAscent() + (boardHeight - (fm.getAscent() + fm.getDescent())) / 2);
+        g.drawString(" BATTLE SHIPS", x, y);
+        }
+
 
     void waitForShipPlacement() {
         state = WindowState.WAITING_FOR_STARTING_POSITION;
@@ -68,6 +87,11 @@ public class GUIView extends Frame implements View {
         }
     }
 
+    private void writeToAction() {
+
+
+    }
+
     @Override
     public void welcomeUser() {
         JOptionPane.showMessageDialog(null, "WELCOME TO BATTLESHIP", "BATTLESHIPS GAME", JOptionPane.INFORMATION_MESSAGE);
@@ -75,7 +99,8 @@ public class GUIView extends Frame implements View {
 
     @Override
     public void viewInstructions() {
-
+        Graphics g = getGraphics();
+        g.drawString(instructions, PADDING, PADDING * 2 + ACTION_BOX_AND_TITLE_HEIGHT );
     }
 
     @Override
