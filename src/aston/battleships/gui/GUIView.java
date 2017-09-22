@@ -103,7 +103,7 @@ public class GUIView extends JFrame implements View {
         int x = PADDING * 2 + CELL_SIZE * 3
                 + CELL_SIZE * HEIGHT;
         int y = PADDING + CELL_SIZE;
-    public void paint(Graphics g) {
+        Graphics g = getGraphics();
         g.drawRect (PADDING * 2 + CELL_SIZE * 3
                 + CELL_SIZE * HEIGHT, PADDING + CELL_SIZE, 300, 20);
         g.drawString(action, PADDING * 2 + CELL_SIZE * 3
