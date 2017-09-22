@@ -2,7 +2,7 @@ package aston.battleships;
 
 import java.util.List;
 
-public class Game {
+public class Game implements Runnable {
     Player player1, player2, nextToPlay;
     List<Integer> shipLengths;
 
@@ -66,7 +66,14 @@ public class Game {
             nextToPlay.getView().announceGameOver(View.GameOverMessage.YOU_RESIGNED);
             getEnemy().getView().announceGameOver(View.GameOverMessage.ENEMY_RESIGNED);
         } catch(Player.QuitException e) {
+            player1.getView().announceGameOver(View.GameOverMessage.UNEXPECTED_QUIT);
+            player2.getView().announceGameOver(View.GameOverMessage.UNEXPECTED_QUIT);
             System.err.println("Player quit unexpectedly");
         }
+    }
+
+    @Override
+    public void run() {
+        play();
     }
 }

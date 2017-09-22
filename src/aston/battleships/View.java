@@ -7,8 +7,10 @@ import java.util.List;
  */
 public interface View {
 
-    public enum GameOverMessage{
-        YOU_WON, YOU_LOST, YOU_RESIGNED, ENEMY_RESIGNED
+    public enum GameOverMessage {
+        YOU_WON, YOU_LOST,
+        YOU_RESIGNED, ENEMY_RESIGNED,
+        UNEXPECTED_QUIT
     }
 
     public void viewBoards(PlayerBoard playerBoard, EnemyBoard enemyBoard);

@@ -195,7 +195,7 @@ public class TextView implements View {
                 "- You cannot fire in the same place twice\n" +
                 "- The game is only over when either you or your enemy have no battleships are left\n" +
                 "- You may also resign from a game by typing \"resign\"\n" +
-                "~ GOOD LUCK PLAYER ~"
+                "~ GOOD LUCK PLAYER ~\n"
         );
     }
 
@@ -213,6 +213,9 @@ public class TextView implements View {
                 break;
             case ENEMY_RESIGNED:
                 System.out.println(ENEMY_RESIGNED_TEXT);
+                break;
+            case UNEXPECTED_QUIT:
+                System.out.println("Someone quit unexpectedly.");
                 break;
         }
     }
