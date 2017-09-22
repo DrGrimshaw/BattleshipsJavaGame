@@ -1,6 +1,5 @@
 package aston.battleships;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -50,7 +49,7 @@ public class RandomPlayer extends AbstractPlayer {
                 Coordinates coordinates = new Coordinates(x, y);
                 coordinates.checkBounds(playerBoard.getWidth(), playerBoard.getHeight());
 
-                if(!enemyBoard.hasGuessed(coordinates)) {
+                if(!enemyBoard.hasGuessedAlready(coordinates)) {
                     return coordinates;
                 }
             } catch(IndexOutOfBoundsException e) {

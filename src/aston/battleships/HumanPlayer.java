@@ -65,7 +65,7 @@ public class HumanPlayer extends AbstractPlayer {
                     throw new ResignException();
                 }
                 Coordinates coordinates = new Coordinates(coordinatesStr);
-                if(enemyBoard.hasGuessed(coordinates)) {
+                if(enemyBoard.hasGuessedAlready(coordinates)) {
                     System.out.println("Coordinates already guessed.");
                 } else {
                     return coordinates;

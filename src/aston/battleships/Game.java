@@ -17,13 +17,12 @@ public class Game {
         return nextToPlay;
     }
 
-    public Player getOpponent() {
+    public Player getEnemy() {
         if(nextToPlay == player1){
             return player2;
         } else {
             return player1;
         }
-
     }
 
     private void placeShips(Player player) throws Player.ResignException {
@@ -49,23 +48,23 @@ public class Game {
                 View view = nextToPlay.getView();
                 nextToPlay.viewState();
                 Coordinates move = nextToPlay.chooseMove();
-                CellState result = getOpponent().takeHit(move);
+                CellState result = getEnemy().takeHit(move);
                 nextToPlay.updateEnemyBoard(move, result);
                 view.viewResultOfMove(move, result);
-                getOpponent().getView().viewResultOfEnemyMove(move, result);
+                getEnemy().getView().viewResultOfEnemyMove(move, result);
 
 
-                if(getOpponent().hasLost()) {
-                    view.announceGameOver(View.GameOverMessage.WON);
-                    getOpponent().getView().announceGameOver(View.GameOverMessage.LOST);
+                if(getEnemy().hasLost()) {
+                    view.announceGameOver(View.GameOverMessage.YOU_WON);
+                    getEnemy().getView().announceGameOver(View.GameOverMessage.YOU_LOST);
                     break;
                 }
 
-                nextToPlay = getOpponent();
+                nextToPlay = getEnemy();
             }
         } catch(Player.ResignException e) {
-            nextToPlay.getView().announceGameOver(View.GameOverMessage.RESIGNED);
-            getOpponent().getView().announceGameOver(View.GameOverMessage.ENEMY_RESIGNED);
+            nextToPlay.getView().announceGameOver(View.GameOverMessage.YOU_RESIGNED);
+            getEnemy().getView().announceGameOver(View.GameOverMessage.ENEMY_RESIGNED);
         } catch(Player.QuitException e) {
             System.err.println("Player quit unexpectedly");
         }

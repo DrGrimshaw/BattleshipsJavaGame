@@ -8,7 +8,7 @@ import java.util.List;
 public interface View {
 
     public enum GameOverMessage{
-        WON, LOST, RESIGNED, ENEMY_RESIGNED
+        YOU_WON, YOU_LOST, YOU_RESIGNED, ENEMY_RESIGNED
     }
 
     public void viewBoards(PlayerBoard playerBoard, EnemyBoard enemyBoard);

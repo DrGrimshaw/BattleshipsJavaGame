@@ -57,12 +57,12 @@ public class TextViewTest {
 
     @Test
     public void testAnnounceGameOverWin() {
-        view.announceGameOver(View.GameOverMessage.WON);
+        view.announceGameOver(View.GameOverMessage.YOU_WON);
     }
 
     @Test
     public void testAnnounceGameOverLost() {
-        view.announceGameOver(View.GameOverMessage.LOST);
+        view.announceGameOver(View.GameOverMessage.YOU_LOST);
     }
 
     @Test

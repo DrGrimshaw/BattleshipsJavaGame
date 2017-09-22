@@ -31,13 +31,13 @@ public class EnemyBoardTest {
 
     @Test
     public void testHasNotGuessed(){
-        assertFalse(board.hasGuessed(new Coordinates(2,2)));
+        assertFalse(board.hasGuessedAlready(new Coordinates(2,2)));
     }
 
     @Test
     public void testHasGuessed(){
         board.updateCellState(new Coordinates(3,3), CellState.MISS);
-        assertTrue(board.hasGuessed(new Coordinates(3,3)));
+        assertTrue(board.hasGuessedAlready(new Coordinates(3,3)));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class EnemyBoardTest {
     }
     @Test(expected = IndexOutOfBoundsException.class)
     public void testHasGuessedOutOfBounds() {
-        board.hasGuessed(new Coordinates(-1,3));
+        board.hasGuessedAlready(new Coordinates(-1,3));
     }
     @Test(expected = IllegalArgumentException.class)
     public void testUpdateCellStateNull() {

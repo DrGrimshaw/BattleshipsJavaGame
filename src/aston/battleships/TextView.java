@@ -202,13 +202,13 @@ public class TextView implements View {
     @Override
     public void announceGameOver(GameOverMessage message) {
         switch(message) {
-            case WON:
+            case YOU_WON:
                 System.out.println(PLAYER_WON_TEXT);
                 break;
-            case LOST:
+            case YOU_LOST:
                 System.out.println(PLAYER_LOST_TEXT);
                 break;
-            case RESIGNED:
+            case YOU_RESIGNED:
                 System.out.println(PLAYER_RESIGNED_TEXT);
                 break;
             case ENEMY_RESIGNED:

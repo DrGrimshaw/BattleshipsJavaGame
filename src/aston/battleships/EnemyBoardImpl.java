@@ -48,7 +48,7 @@ public class EnemyBoardImpl implements EnemyBoard {
     }
 
     @Override
-    public boolean hasGuessed(Coordinates coordinates) {
+    public boolean hasGuessedAlready(Coordinates coordinates) {
         coordinates.checkBounds(width, height);
         return grid[coordinates.x][coordinates.y] != CellState.NOTHING;
     }
