@@ -24,7 +24,7 @@ public class HumanPlayer extends AbstractPlayer {
                 Coordinates coordinates = new Coordinates(coordinatesStr);
                 coordinates.checkBounds(playerBoard.getWidth(), playerBoard.getHeight());
 
-                // TODO: check if there are 0, 1 or 2 valid orientations
+                // optional improvement: check if there are 0, 1 or 2 valid orientations
 
                 Ship ship = null;
                 while(ship == null) {

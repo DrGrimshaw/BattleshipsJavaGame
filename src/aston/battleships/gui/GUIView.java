@@ -214,7 +214,6 @@ public class GUIView extends JFrame implements View {
         return x >= 0 && x < CELL_SIZE * boardWidth && y >= 0 && y < CELL_SIZE * boardHeight;
     }
 
-    //TODO: pixel to player coordinates and pixel to enemy coordinates
     private Coordinates pixelToCoordinatesPlayer(int x, int y) {
         if (withinPlayerBoard(x, y)) {
             x = (x - PADDING - CELL_SIZE) / CELL_SIZE;

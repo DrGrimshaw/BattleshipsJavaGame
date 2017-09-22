@@ -219,7 +219,7 @@ public class TextView implements View {
 
     @Override
     public void viewResultOfMove(Coordinates coordinates, CellState cellState) {
-        //TODO: Different messages from a list for each state
+        //optional improvement: Different messages from a list for each state
         switch(cellState){
             case MISS:
                 System.out.println("\n~ YOU MISSED ~\n");
