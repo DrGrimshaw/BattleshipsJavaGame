@@ -15,12 +15,15 @@ public class HumanPlayer extends AbstractPlayer {
     }
 
     @Override
-    public void placeShipOnToPlayerBoard(int lengthOfShip) {
+    public void placeShipOnToPlayerBoard(int lengthOfShip) throws ResignException {
         while (true) {
             try {
                 System.out.println("Please enter the starting coordinates for this ship (length "+lengthOfShip+"):");
                 System.out.print(">>> ");
                 String coordinatesStr = keyboard.readLine();
+                if(coordinatesStr.equalsIgnoreCase("resign")) {
+                    throw new ResignException();
+                }
                 Coordinates coordinates = new Coordinates(coordinatesStr);
                 coordinates.checkBounds(playerBoard.getWidth(), playerBoard.getHeight());
 
@@ -31,7 +34,9 @@ public class HumanPlayer extends AbstractPlayer {
                     System.out.println("Please enter an orientation (right or down) for this ship:");
                     System.out.print(">>> ");
                     String orientationStr = keyboard.readLine();
-                    if (orientationStr.equalsIgnoreCase("right")) {
+                    if(orientationStr.equalsIgnoreCase("resign")) {
+                        throw new ResignException();
+                    } else if (orientationStr.equalsIgnoreCase("right")) {
                         ship = new ShipImpl(lengthOfShip, coordinates, Orientation.RIGHT);
                     } else if (orientationStr.equalsIgnoreCase("down")) {
                         ship = new ShipImpl(lengthOfShip, coordinates, Orientation.DOWN);
