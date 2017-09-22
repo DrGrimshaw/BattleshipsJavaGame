@@ -84,6 +84,7 @@ public class NetworkPlayer implements Player, View {
     public CellState takeHit(Coordinates coordinates) throws QuitException {
         send("TAKE_HIT_AT " + coordinates);
 
+        // potential improvement: to use the enum.valueOf method to convert a string to a cell state
         String response = receive();
         if(response.equals("MISS")) {
             return CellState.MISS;
